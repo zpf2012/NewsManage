@@ -21,9 +21,9 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css"/>
+<%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css"/>
 <script type="text/javascript" charset="UTF-8" src="<%=request.getContextPath()%>/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" charset="UTF-8" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<script type="text/javascript" charset="UTF-8" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pubNews.css" />
 
@@ -39,16 +39,16 @@
 
 <div id="NATabContent" class="tab-content">
     <div class="tab-pane fade in active" id="pubNews">
-    	<%@ include file="/html/pubNews.jsp"%>
+    	<%@ include file="/html/NewMng/pubNews.jsp"%>
     </div>
     <div class="tab-pane fade" id="pubAnno">
-        <%@ include file="/html/pubAnno.jsp"%>
+        <%@ include file="/html/NewMng/pubAnno.jsp"%>
     </div>
     <div class="tab-pane fade" id="newsMng">
-        <%@ include file="/html/newsMng.jsp"%>
+        <%@ include file="/html/NewMng/newsMng.jsp"%>
     </div>
     <div class="tab-pane fade" id="annoMng">
-        <%@ include file="/html/annoMng.jsp"%>
+        <%@ include file="/html/NewMng/annoMng.jsp"%>
     </div>
 </div>
 

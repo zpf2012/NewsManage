@@ -7,10 +7,10 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 
 <portlet:defineObjects />
-<%-- <script src="<%=request.getContextPath()%>/js/jquery-1.10.2.min.js"></script> --%>
-<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
-<%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet"> --%>
-<link href="<%=request.getContextPath()%>/css/NewsMng.css" rel="stylesheet">
+<%-- <script src="<%=request.getContextPath()%>/myjs/jquery-1.10.2.min.js"></script>
+<script src="<%=request.getContextPath()%>/myjs/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/mycss/bootstrap.min.css" rel="stylesheet"> --%>
+<link href="<%=request.getContextPath()%>/mycss/NewsMng.css" rel="stylesheet">
 <%
 	Map<String, String> map = ReadConfigFile.getContent();
 	//System.out.println(readConfigFile.getUrlPrefix());
