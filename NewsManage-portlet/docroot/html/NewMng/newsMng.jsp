@@ -1,4 +1,6 @@
-<%@include file="/html/init.jsp"%>
+<%@page language="java" contentType="text/html;charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@include file="../init.jsp"%>
 
 <script type="text/javascript">
 	var urlPrefix = '<%=map.get("urlPrefix")%>';
@@ -12,7 +14,7 @@
 	//初始化参数
 	var page = 1;
 	var pageSize = 15;		//每页显示条数：共有五种参数： 15， 30， 45， 60， 75
-	var timeInterval = "month";  //查看区间：共有三种参数： month， year, all
+	var timeInterval = "month";  //查看区间：共有三种参数： month， threeMonth, all
 	var pages = 0;
 	$(function() {
 		
@@ -36,10 +38,33 @@
 	
 	function clickFun(obj){
 		var id = $(obj).attr("id");
-		alert(id.substr(0, 8));
-		if(id.substr(0, 8) = "pageSize"){
+		if(id.substr(0, 8) == "pageSize"){
 			pageSize = id.substr(9);
+		}else if(id.substr(0, 12) == "timeInterval"){
+			timeInterval = id.substr(13);
+		}else if( id.substr(0, 4) == "page"){
+			if(isNaN(id.substr(5))){
+				page = id.substr(5);
+			}else if(id.substr(5)== "first"){
+				page = 1;
+			}else if(id.substr(5)== "previous"){
+				if(page > 1){
+					page -= 1;
+				}else{
+					page = 1;
+				}
+			}else if(id.substr(5)== "next"){
+				if(page < pages){
+					page += 1;
+				}else{
+					page = pages;
+				}
+			}else if(id.substr(5)== "last"){
+				page = pages;
+			}
 		}
+		alert("page: "+page+", pageSize: "+pageSize+", timeInterval: "+timeInterval);
+		
 	}
 	
 	function getData(){
@@ -50,7 +75,7 @@
 			async : false,
 			//提交的网址
 			//url : "http://asc.hand-china.com/eip/api/public/employee/hrmsEmployeeV/queryEmp",
-			//http://10.211.110.207:8080/api/public/news/eipNews/query
+			//http://10.211.110.207:9080/api/public/news/eipNews/query
 			url : urlPrefix + "/eipNews/query",
 			data : {
 				"page" : page ,
@@ -109,8 +134,8 @@
 				$("#getPageSize").html(pageSize);
 				if(timeInterval=='month'){
 					$("#getTimeInterval").html("显示最近一个月");
-				}else if(timeInterval == 'year'){
-					$("#getTimeInterval").html("显示本年内");
+				}else if(timeInterval == 'threeMonth'){
+					$("#getTimeInterval").html("显示最近三个月内");
 				}else{
 					$("#getTimeInterval").html("显示所有");
 				}
@@ -193,3 +218,4 @@
 	style="left: 280px; top: 4.31667px; z-index: 1201; height: 100%; width: 100%; display: none;"
 	tabindex="0">
 </div>
+
