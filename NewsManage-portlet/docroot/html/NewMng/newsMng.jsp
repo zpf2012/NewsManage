@@ -1,20 +1,5 @@
-<%@page language="java" contentType="text/html;charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@page import="java.util.Map"%>
-<%@page import="com.hand.eip.news.ReadConfigFile"%>
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
-<%@ taglib uri="http://alloy.liferay.com/tld/aui" prefix="aui"%>
-<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
+<%@include file="/html/init.jsp"%>
 
-<portlet:defineObjects />
-<%-- <script src="<%=request.getContextPath()%>/myjs/jquery-1.10.2.min.js"></script>
-<script src="<%=request.getContextPath()%>/myjs/bootstrap.min.js"></script>
-<link href="<%=request.getContextPath()%>/mycss/bootstrap.min.css" rel="stylesheet"> --%>
-<link href="<%=request.getContextPath()%>/mycss/NewsMng.css" rel="stylesheet">
-<%
-	Map<String, String> map = ReadConfigFile.getContent();
-	//System.out.println(readConfigFile.getUrlPrefix());
-%>
 <script type="text/javascript">
 	var urlPrefix = '<%=map.get("urlPrefix")%>';
 
@@ -50,7 +35,11 @@
 	});
 	
 	function clickFun(obj){
-		alert($(obj).attr("id"));
+		var id = $(obj).attr("id");
+		alert(id.substr(0, 8));
+		if(id.substr(0, 8) = "pageSize"){
+			pageSize = id.substr(9);
+		}
 	}
 	
 	function getData(){
