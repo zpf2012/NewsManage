@@ -21,9 +21,9 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 
 
-<%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css"/>
+<%-- <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/bootstrap.min.css"/>--%>
 <script type="text/javascript" charset="UTF-8" src="<%=request.getContextPath()%>/js/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" charset="UTF-8" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
+<script type="text/javascript" charset="UTF-8" src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> 
 
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pubNews.css" />
 

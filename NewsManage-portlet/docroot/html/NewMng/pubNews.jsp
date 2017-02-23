@@ -1,5 +1,6 @@
 <%@page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/announcement.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath() %>/css/pubNews.css"/>
 
 <link rel="stylesheet" href="<%=request.getContextPath() %>/kindeditor/themes/default/default.css" />
 <link rel="stylesheet" href="<%=request.getContextPath() %>/kindeditor/plugins/code/prettify.css" />
@@ -51,8 +52,8 @@ KindEditor.ready(function(K) {
 					<div class="zz_rele_d_2_e">
 						<div class="zz_rele_d_2_e_1">
 							<div style=" float: left;">展示图片&nbsp;<span style="font-size: 12px; color :#333333;">作为新闻列表展示用&nbsp;必填一张&nbsp;小于2M</span></div>
-							<div class="zz_news" style="padding-top: 4px; background-color:#ccc; margin-left: 320px;" onclick="getElementById('picturePath').click()">上传</div>
-							<div style="clear:both;"></div>
+<!-- 							<div class="zz_news" style="padding-top: 4px; background-color:#ccc; margin-left: 320px;" onclick="getElementById('picturePath').click()">上传</div>
+ -->							<div style="clear:both;"></div>
 						</div>
 						
 						<div class="zz_rele_d_2_e_2">
