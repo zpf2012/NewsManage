@@ -7,9 +7,9 @@
 	var total = '<%=request.getAttribute("total") %>';
 	var head = '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>';
 
-	var options = '<a href="'+urlPrefix+'/view?id=##new_id##">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
+	var options = '<a href="'+urlPrefix+'/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
 	//var options = '<a href="/view/##new_id##">预览</a>&nbsp;&nbsp;<a href="/edit/##new_id##">编辑</a>&nbsp;&nbsp;<a href="/delete/##new_id##">删除</a>';
-	var template = '<tbody class="table-data"><tr><td><input id="new_id_##new_id##" name="news_entry" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
+	var template = '<tbody class="table-data"><tr><td><input id="##new_id##" name="news_entry" onclick="changeState(this)" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
 
 	//初始化参数
 	var page = 1;
@@ -21,31 +21,45 @@
 		getData();
 
 		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15">查看数据</a>');
-		/*  $("#view").on('click', function() {
-			$("#customerPage").show();
-			return false;
-		}); */
-
-		$("#customerPage").hide();
-
-		var getPageChildren =  $("#getPage").children('li');
-		/* $("#getPage").children('li').children('a').on('click', function(){ 
-		});*/
-		page = getPageChildren.children('a').attr("id").substr(5);
-		alert(page);
+		
+		$("#deleteButton").hide();
+		
+		$('input[type="checkbox"]').on('click', function(){
+			$('input[type="checkbox"]').each(function(index){
+				alert($(this).prop('checked'));
+				if($(this).prop('checked') == true){
+					$("#deleteButton").show();
+				} 
+			});
+		});
 		
 	});
 	var checkAllTrigger = false;
+	var deletePrepareMap = {};
 	
-/* 	function checkAll(){
+ 	function checkAll(){
 		if(!checkAllTrigger){
-			$('input[name="news_entry"]').attr('checked','checked');
+			$('input[name="news_entry"]').prop('checked',true);
+			/* var currentObj = $('input[name="news_entry"]:first');
+			if(currentObj.attr("id")!= null && currentObj.attr("id")!= undifined){
+				deletePrepareMap[currentObj.attr("id")] = currentObj.attr("id").toString();
+			}
+			if(){
+				
+			} */
 			checkAllTrigger = true;
 		}else{
-			$('input[name="news_entry"]').attr('checked','undefined');
+			$('input[name="news_entry"]').prop('checked',false);
 			checkAllTrigger = false;
 		}
-	} */
+	}
+ 	
+ 	function changeState(obj){
+ 		if(!$(obj).prop('checked')){
+ 			$("#selectAll").prop('checked', false);
+ 			checkAllTrigger = false;
+ 		}
+ 	}
 	
 	function clickFun(obj){
 		var id = $(obj).attr("id");
@@ -101,38 +115,43 @@
 				var html = '';
 				var htmlTemp = template;
 				var optionsTemp = options;
-				for ( var i in data) {
-					pages = Math.ceil(data.length/pageSize) ;
-					optionsTemp = optionsTemp.replace("##new_id##",
-							data[i].newsId);
-					optionsTemp = optionsTemp.replace("##new_id##",
-							data[i].newsId);
+				for ( var i=0; i< data.length; i++) {
+					if(i == (data.length-1)){
+						total = data[i].total;
+						pages = Math.ceil(total/pageSize) ;
+					}else{
+						optionsTemp = optionsTemp.replace("##new_id##",
+								data[i].newsId);
+						optionsTemp = optionsTemp.replace("##new_id##",
+								data[i].newsId);
 
-					htmlTemp = htmlTemp.replace("##new_id##",
-							data[i].newsId);
-					//alert(options);
-					
-					htmlTemp = htmlTemp.replace("##signatureName##", data[i].signatureName);
-					
-					htmlTemp = htmlTemp.replace("##title##",
-							data[i].title);
-					htmlTemp = htmlTemp.replace("##summary##",
-							data[i].summary == null ? ""
-									: data[i].summary);
-					htmlTemp = htmlTemp.replace("##releaseDate##",
-							data[i].releaseDate);
+						htmlTemp = htmlTemp.replace("##new_id##",
+								data[i].newsId);
+						//alert(options);
+						
+						htmlTemp = htmlTemp.replace("##signatureName##", data[i].signatureName);
+						
+						htmlTemp = htmlTemp.replace("##title##",
+								data[i].title);
+						htmlTemp = htmlTemp.replace("##summary##",
+								data[i].summary == null ? ""
+										: data[i].summary);
+						htmlTemp = htmlTemp.replace("##releaseDate##",
+								data[i].releaseDate);
 
-					if (data[i].releaseStatus == 'NEWS_STATUS_SAVE') {
-						htmlTemp = htmlTemp.replace("##status##", "保存");
-					} else {
-						htmlTemp = htmlTemp
-								.replace("##status##", "已发布");
+						if (data[i].releaseStatus == 'NEWS_STATUS_SAVE') {
+							htmlTemp = htmlTemp.replace("##status##", "保存");
+						} else {
+							htmlTemp = htmlTemp
+									.replace("##status##", "已发布");
+						}
+
+						html = html + htmlTemp + optionsTemp
+								+ '</td></tr></tbody>';
+						optionsTemp = options;
+						htmlTemp = template;
 					}
-
-					html = html + htmlTemp + optionsTemp
-							+ '</td></tr></tbody>';
-					optionsTemp = options;
-					htmlTemp = template;
+					
 				}
 
 				html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
@@ -151,7 +170,7 @@
 				var pageTemplate = '<li><a id="currentPage_##page##" href="javascript:void(0)" onclick="clickFun(this)">##page##</a></li>';
 				var temp = pageTemplate;
 				$("#getPage").html('');
-				for(var i= 1; i < total+1; i++){
+				for(var i= 1; i < pages+1; i++){
 					temp = temp.replace("##page##", i.toString());
 					temp = temp.replace("##page##", i.toString());
 					$("#getPage").html($("#getPage").html()+ temp) ;
@@ -206,6 +225,9 @@
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_threeMonth">显示最近三个月内</a></li>
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_all">显示所有</a></li>
 		</ul>
+	</div>
+	<div class="btn-group" style="float:left; margin-top: 15px;" id="deleteButton">
+		<button type="button" class="btn btn-info">删除</button>
 	</div>
 	<div style="float:left; margin-top: 15px;"><span id="getEntryNums"></span></div>
 </div>
