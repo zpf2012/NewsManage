@@ -4,12 +4,12 @@
 
 <script type="text/javascript">
 	var urlPrefix = '<%=map.get("urlPrefix")%>';
-
-	var head = '<thead class="table-columns"><tr><th><input id="selectAll" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>新闻/通告</th><th>当前状态</th><th>操作</th></tr></thdea>';
+	var total = '<%=request.getAttribute("total") %>';
+	var head = '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>';
 
 	var options = '<a href="'+urlPrefix+'/view?id=##new_id##">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
 	//var options = '<a href="/view/##new_id##">预览</a>&nbsp;&nbsp;<a href="/edit/##new_id##">编辑</a>&nbsp;&nbsp;<a href="/delete/##new_id##">删除</a>';
-	var template = '<tbody class="table-data"><tr><td><input id="new_id_##new_id##" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##releaseDate##</td><td>##type##</td><td>##status##</td><td>';
+	var template = '<tbody class="table-data"><tr><td><input id="new_id_##new_id##" name="news_entry" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
 
 	//初始化参数
 	var page = 1;
@@ -20,7 +20,7 @@
 		
 		getData();
 
-		$("#test").html('<a href="'+urlPrefix+'/eipNews/query">查看数据</a>');
+		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15">查看数据</a>');
 		/*  $("#view").on('click', function() {
 			$("#customerPage").show();
 			return false;
@@ -35,6 +35,17 @@
 		alert(page);
 		
 	});
+	var checkAllTrigger = false;
+	
+/* 	function checkAll(){
+		if(!checkAllTrigger){
+			$('input[name="news_entry"]').attr('checked','checked');
+			checkAllTrigger = true;
+		}else{
+			$('input[name="news_entry"]').attr('checked','undefined');
+			checkAllTrigger = false;
+		}
+	} */
 	
 	function clickFun(obj){
 		var id = $(obj).attr("id");
@@ -100,11 +111,9 @@
 					htmlTemp = htmlTemp.replace("##new_id##",
 							data[i].newsId);
 					//alert(options);
-					if (data[i].newsType == 'HEIP_NEWSTYPE_NEWS') {
-						htmlTemp = htmlTemp.replace("##type##", "新闻");
-					} else {
-						htmlTemp = htmlTemp.replace("##type##", "通告");
-					}
+					
+					htmlTemp = htmlTemp.replace("##signatureName##", data[i].signatureName);
+					
 					htmlTemp = htmlTemp.replace("##title##",
 							data[i].title);
 					htmlTemp = htmlTemp.replace("##summary##",
@@ -129,7 +138,7 @@
 				html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
 						+ head + html + '</table>';
 				$("#container").html(html);
-				$("#getEntryNums").html("总共的条目有"+data.length+"条，当前为第"+page+"页,当前每页显示条数为"+pageSize+"条");
+				$("#getEntryNums").html("所有的条目有"+total+"条，当前为第"+page+"页,当前每页显示条数为"+pageSize+"条");
 				$("#getPageSize").html(pageSize);
 				if(timeInterval=='month'){
 					$("#getTimeInterval").html("显示最近一个月");
@@ -141,7 +150,8 @@
 				
 				var pageTemplate = '<li><a id="currentPage_##page##" href="javascript:void(0)" onclick="clickFun(this)">##page##</a></li>';
 				var temp = pageTemplate;
-				for(var i= 1; i < pages+1; i++){
+				$("#getPage").html('');
+				for(var i= 1; i < total+1; i++){
 					temp = temp.replace("##page##", i.toString());
 					temp = temp.replace("##page##", i.toString());
 					$("#getPage").html($("#getPage").html()+ temp) ;
