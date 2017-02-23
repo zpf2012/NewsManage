@@ -42,29 +42,28 @@
 			pageSize = id.substr(9);
 		}else if(id.substr(0, 12) == "timeInterval"){
 			timeInterval = id.substr(13);
-		}else if( id.substr(0, 4) == "page"){
-			if(isNaN(id.substr(5))){
-				page = id.substr(5);
-			}else if(id.substr(5)== "first"){
+		}else if( id.substr(0, 11) == "currentPage"){
+			page = id.substr(12);
+		}else if(id.substr(5)== "first"){
+			page = 1;
+		}else if(id.substr(5)== "previous"){
+			if(page > 1){
+				page -= 1;
+			}else{
 				page = 1;
-			}else if(id.substr(5)== "previous"){
-				if(page > 1){
-					page -= 1;
-				}else{
-					page = 1;
-				}
-			}else if(id.substr(5)== "next"){
-				if(page < pages){
-					page += 1;
-				}else{
-					page = pages;
-				}
-			}else if(id.substr(5)== "last"){
+			}
+		}else if(id.substr(5)== "next"){
+			if(page < pages){
+				page += 1;
+			}else{
 				page = pages;
 			}
+		}else if(id.substr(5)== "last"){
+			page = pages;
 		}
-		alert("page: "+page+", pageSize: "+pageSize+", timeInterval: "+timeInterval);
+		//alert("page: "+page+", pageSize: "+pageSize+", timeInterval: "+timeInterval);
 		
+		getData();
 	}
 	
 	function getData(){
@@ -140,7 +139,7 @@
 					$("#getTimeInterval").html("显示所有");
 				}
 				
-				var pageTemplate = '<li><a id="page_##page##" href="javascript:void(0)" onclick="clickFun(this)">##page##</a></li>';
+				var pageTemplate = '<li><a id="currentPage_##page##" href="javascript:void(0)" onclick="clickFun(this)">##page##</a></li>';
 				var temp = pageTemplate;
 				for(var i= 1; i < pages+1; i++){
 					temp = temp.replace("##page##", i.toString());
@@ -194,7 +193,7 @@
 		</button>
 		<ul class="dropdown-menu" role="menu" id="timeInterval">
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_month" >显示最近一个月</a></li>
-			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_year">显示本年内</a></li>
+			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_threeMonth">显示最近三个月内</a></li>
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_all">显示所有</a></li>
 		</ul>
 	</div>
