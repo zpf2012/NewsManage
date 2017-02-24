@@ -30,15 +30,15 @@
 		
 		$("#deleteButton").hide();
 		
-		$('input[name="news_entry"]').on('click', function(){
+		/* $('input[name="news_entry"]').on('click', function(){
 			alert(1);
-			/* $('input[type="checkbox"]').each(function(){
+			$('input[type="checkbox"]').each(function(){
 				alert($(this).prop('checked'));
 				 if($(this).prop('checked') == true){
 				}
-			}); */
+			});
 					$("#deleteButton").show();
-		});
+		}); */
 		 
 		
 		/* html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
