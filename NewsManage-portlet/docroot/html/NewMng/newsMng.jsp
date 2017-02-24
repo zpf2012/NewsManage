@@ -46,23 +46,6 @@
 			alert("请先选择需要删除的条目。");
 		}else{
 			if(confirm('确定删除吗 ？')){
-				/* alert(map.toJSON());*/
-				/* for(var key in map){
-					alert(map[key]);
-				} */
-				//var tableObj = document.getElementById("myTable");
-				
-		 	    /* for (var i = 1; i <= pageSize; i++) {    //遍历Table的所有Row
-	 	        	var current_obj = tableObj.rows[i].cells[0].innerHTML;
-					var currentNewId = $(current_obj).attr("id");
-					
-					alert($(current_obj).prop('checked'));
-					/* if($(current_obj).prop('checked')== true){
-						deletePrepareMap[i] = currentNewId;
-					}else{
-						deletePrepareMap[i] = 0;
-					}
-		 	    } */
 		 	    $('input[name="news_entry"]').each(function(){
 		 	    	//alert(1);
 		 	    	if($(this).prop('checked')){
@@ -79,19 +62,13 @@
 	
 	function  batchDeleteAjax(){
 		$.ajax({
-			//提交数据的类型 POST GET
 			type : "POST",
-			//表示同步	false true
 			async : false,
-			//提交的网址
-			//url : "http://asc.hand-china.com/eip/api/public/employee/hrmsEmployeeV/queryEmp",
-			//http://10.211.110.207:9080/api/public/news/eipNews/query
 			url : urlPrefix + "/eipNews/batchDelete",
 			data : {
 				"newsMap" : newsMap
 			},
 			dataType : "jsonp", //"xml", "html", "script", "json", "jsonp", "text".
-			//解决跨域问题
 			jsonp : "callback",
 			//jsonpCallback:"query",
 			success : function(data) {
