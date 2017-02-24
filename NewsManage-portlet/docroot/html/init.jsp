@@ -4,8 +4,8 @@
 <%@ taglib uri="http://alloy.liferay.com/tld/aui" prefix="aui"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <script src="<%=request.getContextPath()%>/js/jquery-1.10.2.min.js"></script>
-<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script> --%>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<%-- <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
+<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet"> --%>
 
 
 <portlet:defineObjects />

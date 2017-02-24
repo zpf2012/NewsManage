@@ -4,23 +4,29 @@
 
 <script type="text/javascript">
 	var urlPrefix = '<%=map.get("urlPrefix")%>';
-	var total = '<%=request.getAttribute("total") %>';
-	var head = '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>';
+	var total = 0;
+	var head = '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>类型</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>';
 
-	var options = '<a href="'+urlPrefix+'/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
+	var options = '<a href="/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
 	//var options = '<a href="/view/##new_id##">预览</a>&nbsp;&nbsp;<a href="/edit/##new_id##">编辑</a>&nbsp;&nbsp;<a href="/delete/##new_id##">删除</a>';
-	var template = '<tbody class="table-data"><tr><td><input id="##new_id##" name="news_entry" onclick="changeState(this)" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
+	var template = '<tbody class="table-data"><tr><td><input id="##new_id##" name="news_entry" onclick="changeState(this)" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##newsType##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
 
+	
 	//初始化参数
 	var page = 1;
 	var pageSize = 15;		//每页显示条数：共有五种参数： 15， 30， 45， 60， 75
-	var timeInterval = "month";  //查看区间：共有三种参数： month， threeMonth, all
+	var timeInterval = 1;  //查询时间区间，1代表1个月，12代表一年，-1代表所有
 	var pages = 0;
+	var newsType = "ALL";	//HEIP_NEWSTYPE_NEWS， HEIP_NEWSTYPE_ANNOUNCEMENT， ALL
+	var html = '';
+	var htmlTemp = template;
+	var optionsTemp = options;
+	
 	$(function() {
 		
 		getData();
 
-		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15">查看数据</a>');
+		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
 		
 		$("#deleteButton").hide();
 		
@@ -32,6 +38,11 @@
 				} 
 			});
 		});
+		
+		/* html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
+			+ '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>'
+			+ template + options + '</table>';
+		$("#container").html(html); */
 		
 	});
 	var checkAllTrigger = false;
@@ -66,7 +77,21 @@
 		if(id.substr(0, 8) == "pageSize"){
 			pageSize = id.substr(9);
 		}else if(id.substr(0, 12) == "timeInterval"){
-			timeInterval = id.substr(13);
+			if(id.substr(13)=="month"){
+				timeInterval = 1;
+			}else if(id.substr(13)=="threeMonth"){
+				timeInterval = 3;
+			}else{
+				timeInterval = -1;
+			}
+		}else if(id.substr(0, 8)== "newsType"){
+			if(id.substr(9) == "all"){
+				newsType = "ALL";
+			}else if(id.substr(9) == "news"){
+				newsType = "HEIP_NEWSTYPE_NEWS";
+			}else if(id.substr(9) == "anno"){
+				newsType = "HEIP_NEWSTYPE_ANNOUNCEMENT";
+			}
 		}else if( id.substr(0, 11) == "currentPage"){
 			page = id.substr(12);
 		}else if(id.substr(5)== "first"){
@@ -104,7 +129,8 @@
 			data : {
 				"page" : page ,
 				"pageSize" : pageSize,
-				"timeInterval": timeInterval
+				"timeInterval": timeInterval,
+				"newsType": newsType
 			},
 			dataType : "jsonp", //"xml", "html", "script", "json", "jsonp", "text".
 			//解决跨域问题
@@ -112,9 +138,9 @@
 			//jsonpCallback:"query",
 			success : function(data) {
 				//alert(JSON.stringify(data));
-				var html = '';
-				var htmlTemp = template;
-				var optionsTemp = options;
+				html = '';
+				htmlTemp = template;
+				optionsTemp = options;
 				for ( var i=0; i< data.length; i++) {
 					if(i == (data.length-1)){
 						total = data[i].total;
@@ -138,6 +164,12 @@
 										: data[i].summary);
 						htmlTemp = htmlTemp.replace("##releaseDate##",
 								data[i].releaseDate);
+						
+						if (data[i].newsType == 'HEIP_NEWSTYPE_NEWS') {
+							htmlTemp = htmlTemp.replace("##newsType##", "新闻");
+						} else {
+							htmlTemp = htmlTemp.replace("##newsType##", "通告");
+						}
 
 						if (data[i].releaseStatus == 'NEWS_STATUS_SAVE') {
 							htmlTemp = htmlTemp.replace("##status##", "保存");
@@ -145,11 +177,11 @@
 							htmlTemp = htmlTemp
 									.replace("##status##", "已发布");
 						}
-
+						
 						html = html + htmlTemp + optionsTemp
 								+ '</td></tr></tbody>';
 						optionsTemp = options;
-						htmlTemp = template;
+						htmlTemp = template; 
 					}
 					
 				}
@@ -157,14 +189,27 @@
 				html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
 						+ head + html + '</table>';
 				$("#container").html(html);
+				
+				html = '';
+				htmlTemp = template;
+				optionsTemp = options;
+				
 				$("#getEntryNums").html("所有的条目有"+total+"条，当前为第"+page+"页,当前每页显示条数为"+pageSize+"条");
 				$("#getPageSize").html(pageSize);
-				if(timeInterval=='month'){
+				if(timeInterval==1){
 					$("#getTimeInterval").html("显示最近一个月");
-				}else if(timeInterval == 'threeMonth'){
+				}else if(timeInterval == 3){
 					$("#getTimeInterval").html("显示最近三个月内");
 				}else{
 					$("#getTimeInterval").html("显示所有");
+				}
+				
+				if(newsType == "ALL"){
+					$("#getNewsType").html("查询所有");
+				}else if(newsType == "HEIP_NEWSTYPE_NEWS"){
+					$("#getNewsType").html("查询新闻");
+				}else{
+					$("#getNewsType").html("查询通告");
 				}
 				
 				var pageTemplate = '<li><a id="currentPage_##page##" href="javascript:void(0)" onclick="clickFun(this)">##page##</a></li>';
@@ -220,10 +265,23 @@
 			data-toggle="dropdown">
 			<span id="getTimeInterval"></span><span class="caret"></span>
 		</button>
+		
 		<ul class="dropdown-menu" role="menu" id="timeInterval">
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_month" >显示最近一个月</a></li>
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_threeMonth">显示最近三个月内</a></li>
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="timeInterval_all">显示所有</a></li>
+		</ul>
+	</div>
+	<div class="btn-group" style="float:left; margin-top: 15px;" >
+		<button type="button" class="btn btn-info dropdown-toggle"
+			data-toggle="dropdown">
+			<span id="getNewsType"></span><span class="caret"></span>
+		</button>
+		
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="newsType_all" >查询所有</a></li>
+			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="newsType_news">查询新闻</a></li>
+			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="newsType_anno">查询通告</a></li>
 		</ul>
 	</div>
 	<div class="btn-group" style="float:left; margin-top: 15px;" id="deleteButton">

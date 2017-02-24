@@ -1,7 +1,6 @@
-<%@page import="com.liferay.portal.service.ServiceContextFactory"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../common/init.jsp"%>
+<%@page import="com.liferay.portal.service.ServiceContextFactory"%>
 <%@page import="com.liferay.portal.util.PortalUtil"%>
 <style>
 .xfNews{
@@ -93,14 +92,13 @@
 </div>
 <script type="text/javascript">
 	var thisNewsId = window.location.search.substring(1).split("=")[1];
-	var userId =<%=ServiceContextFactory.getInstance(request).getUserId()%>;
 	var zan="T";
 	var xfnum;
 	$(function(){
 		queryNewsDetail(thisNewsId);
 
 	});
-	function queryNewsDetail(thisNewsId,userId){
+	function queryNewsDetail(thisNewsId){
 		$.ajax({
 			type : "GET",
 			dataType : "jsonp",
