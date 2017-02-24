@@ -41,7 +41,7 @@
 	var deletePrepareMap = [];
 	
 	function batchDelete(){
-		if(newsMap == null){
+		if(newsMap == []){
 			alert("请先选择需要删除的条目。");
 		}else{
 			if(confirm('确定删除吗 ？')){
@@ -67,14 +67,44 @@
 		 	    	if($(this).prop('checked')){
 		 	    		newsMap.push($(this).prop("id"));
 		 	    	}
+		 	    	//batchDeleteAjax();
 		 	    });
- 	            alert(newsMap);
 				alert("批量删除成功。");
-				newsMap = [];
 			}else{
 				alert("取消删除操作");
 			}
 		}
+	}
+	
+	function  batchDeleteAjax(){
+		$.ajax({
+			//提交数据的类型 POST GET
+			type : "POST",
+			//表示同步	false true
+			async : false,
+			//提交的网址
+			//url : "http://asc.hand-china.com/eip/api/public/employee/hrmsEmployeeV/queryEmp",
+			//http://10.211.110.207:9080/api/public/news/eipNews/query
+			url : urlPrefix + "/eipNews/batchDelete",
+			data : {
+				"newsMap" : newsMap
+			},
+			dataType : "jsonp", //"xml", "html", "script", "json", "jsonp", "text".
+			//解决跨域问题
+			jsonp : "callback",
+			//jsonpCallback:"query",
+			success : function(data) {
+				if(data[0]=="success"){
+					getData();
+				}else{
+					alert("批量删除失败");
+				}
+				newsMap = [];
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
 	}
 	
  	function checkAll(){
