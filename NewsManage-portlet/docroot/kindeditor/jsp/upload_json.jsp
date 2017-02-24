@@ -18,6 +18,8 @@
 <%@ page import="org.apache.commons.fileupload.disk.*" %>
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <%@ page import="org.json.simple.*" %>
+<%@page import="com.hand.eip.news.ReadConfigFile"%>
+
 <%
 
 	/**
@@ -27,6 +29,8 @@
 	 * 如果您确定直接使用本程序，使用之前请仔细确认相关安全设置。
 	 * 
 	 */
+
+	Map<String,String> configMap = ReadConfigFile.getContent();
 
 /* 	long userId = ServiceContextFactory.getInstance(request).getUserId();
 	System.out.print("============"+userId); */
@@ -84,7 +88,9 @@
 				long size = item.getSize();
 			 	ServiceContext serviceContext = ServiceContextFactory.getInstance(request);
 				String mimeType = MimeTypesUtil.getContentType(fileName);
- 				String saveUrl= uploadFile(20228,30513, is ,size,newFileName, mimeType,  serviceContext);
+				
+ 				String saveUrl= uploadFile(Integer.parseInt(configMap.get("repositoryId")),
+ 						Integer.parseInt(configMap.get("folderId")), is ,size,newFileName, mimeType,  serviceContext);
 /* 				String saveUrl= uploadFile(20182,321425, is ,size,newFileName, mimeType,  serviceContext);
  */
 				if(saveUrl.length()<1||saveUrl == null){
@@ -106,7 +112,7 @@
 	
 	
 	<%!
-	
+	Map<String,String> configMap = ReadConfigFile.getContent();
 	/**
 	 * 上传新闻或通告图片
 	 * 
@@ -124,7 +130,7 @@
 			String title = fileName;
 			String[] filePermission = { "ADD_DISCUSSION", "VIEW" };
 			serviceContext.setGroupPermissions(filePermission);
-	  		FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(20199,repositoryId, folderId, fileName, mimeType, title,description, changeLog, is, size, serviceContext);
+	  		FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(Integer.parseInt(configMap.get("userId")),repositoryId, folderId, fileName, mimeType, title,description, changeLog, is, size, serviceContext);
 	  		
 	/*  		FileEntry fileEntry = DLAppServiceUtil.addFileEntry(repositoryId, folderId, fileName, mimeType,title, description, "", is, size, serviceContext);
 	 */ 		
@@ -136,9 +142,7 @@
 			e.printStackTrace();
 		}
 		return URL;
-	}
-	
-	
+	}	
 	
 	/**
 	 * 获取文件的下载链接
@@ -152,30 +156,17 @@
 		StringBuffer stringBuffer = new StringBuffer();
 		try {
 			String fileName = java.net.URLEncoder.encode(fileEntry.getTitle(),"utf-8");
-			Properties properties = new Properties();
-			InputStream in = ConnectionFactory.class.getClassLoader().getResourceAsStream("config.properties");
-			properties.load(in);
-			String homeURL = properties.getProperty("liferayUrl");
+			String homeURL = configMap.get("liferayUrl");
+			System.out.print(configMap);
 			long repositoryId = fileEntry.getRepositoryId();
-			String treePath = "/30513/";
-			/* String treePath = "/321425/"; */
 			String uuid = fileEntry.getUuid();
-	
-			stringBuffer.append(homeURL);
-			stringBuffer.append("/documents/");
-			stringBuffer.append(repositoryId);
-			stringBuffer.append(treePath);
-			stringBuffer.append(fileName);
-			stringBuffer.append("/");
-			stringBuffer.append(uuid);
-	
+			stringBuffer.append(homeURL+"/documents/"+repositoryId+"/"+Integer.parseInt(configMap.get("folderId"))+"/"+fileName+"/"+uuid);	
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return stringBuffer.toString();
-	
 	}
 	
 	

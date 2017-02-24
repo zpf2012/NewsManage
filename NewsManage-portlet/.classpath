@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="docroot/WEB-INF/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0_17">
 		<attributes>
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
@@ -18,11 +18,5 @@
 			<attribute name="org.eclipse.jst.component.nondependency" value=""/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="docroot/kindeditor/jsp/lib/commons-fileupload-1.2.1.jar"/>
-	<classpathentry kind="lib" path="docroot/kindeditor/jsp/lib/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="docroot/kindeditor/jsp/lib/json_simple-1.1.jar"/>
-	<classpathentry kind="lib" path="docroot/html/kindeditor/jsp/lib/commons-fileupload-1.2.1.jar"/>
-	<classpathentry kind="lib" path="docroot/html/kindeditor/jsp/lib/commons-io-1.4.jar"/>
-	<classpathentry kind="lib" path="docroot/html/kindeditor/jsp/lib/json_simple-1.1.jar"/>
 	<classpathentry kind="output" path="docroot/WEB-INF/classes"/>
 </classpath>

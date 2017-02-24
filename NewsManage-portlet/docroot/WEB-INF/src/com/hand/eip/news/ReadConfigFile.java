@@ -21,6 +21,11 @@ public class ReadConfigFile {
 			String dbUserName = properties.getProperty("jdbc.default.username");
 			String dbPassword = properties.getProperty("jdbc.default.password");
 			
+			String serverUrl = properties.getProperty("serverUrl");
+			String userId = properties.getProperty("userId");
+			String repositoryId = properties.getProperty("repositoryId");
+			String folderId = properties.getProperty("folderId");
+			
 			map.put("urlPrefix", urlPrefix);
 			map.put("liferayUrl", liferayUrl);
 			map.put("dbDriver", dbDriver);
@@ -28,6 +33,10 @@ public class ReadConfigFile {
 			map.put("dbUserName", dbUserName);
 			map.put("dbPassword", dbPassword);
 			
+			map.put("serverUrl", serverUrl);
+			map.put("userId", userId);
+			map.put("repositoryId", repositoryId);
+			map.put("folderId", folderId);
 			
 			resourceAsStream.close();
 			

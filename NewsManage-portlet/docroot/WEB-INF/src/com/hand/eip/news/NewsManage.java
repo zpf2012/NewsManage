@@ -21,6 +21,8 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.ProcessAction;
 
+import sun.security.krb5.Config;
+
 import com.hand.eip.util.ConnectionFactory;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -39,6 +41,7 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 public class NewsManage extends MVCPortlet {
 
 	Map<String,String> config = ReadConfigFile.getContent();
+
 	
 	@ProcessAction(name = "pubNews")
 	public void toEditNews(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, PortalException,SystemException {
@@ -48,7 +51,7 @@ public class NewsManage extends MVCPortlet {
 		String newSignatureName = ParamUtil.getString(actionRequest,"newSignatureName", "无作者");
 		String newSummary = ParamUtil.getString(actionRequest, "newSummary","无摘要");
 		String newContent = ParamUtil.getString(actionRequest, "newContent","无内容");
-
+		
 		String url = "";
 		UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);
 		File file = uploadPortletRequest.getFile("morePicture");
@@ -62,7 +65,7 @@ public class NewsManage extends MVCPortlet {
 		url = uploadFile(repositoryId, folderId, file, fileName, mimeType,serviceContext);
 		//System.out.println("url:" + url);
 
-		String s = NewsManage.post("http://asc.hand-china.com/eip/api/public/news/eipNews/insertNews","url=" 
+		String s = NewsManage.post(config.get("serverUrl")+"/eip/api/public/news/eipNews/insertNews","url=" 
 				+ url + "&newTitle=" 
 				+ newTitle + "&newSignatureName=" 
 				+ newSignatureName + "&newSummary=" 
