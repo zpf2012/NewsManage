@@ -34,10 +34,7 @@ KindEditor.ready(function(K) {
 
 <div class="zz_rele">
 	<div class="zz_rele_a">
-
 		<div class="zz_rele_d">
-
-			<!-- 发布新闻 -->
 
 			<!-- 发布通告 -->
 			<div id="aa" class="zz_rele_d_3">
