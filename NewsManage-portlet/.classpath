@@ -21,5 +21,8 @@
 	<classpathentry kind="lib" path="docroot/kindeditor/jsp/lib/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="lib" path="docroot/kindeditor/jsp/lib/commons-io-1.4.jar"/>
 	<classpathentry kind="lib" path="docroot/kindeditor/jsp/lib/json_simple-1.1.jar"/>
+	<classpathentry kind="lib" path="docroot/html/kindeditor/jsp/lib/commons-fileupload-1.2.1.jar"/>
+	<classpathentry kind="lib" path="docroot/html/kindeditor/jsp/lib/commons-io-1.4.jar"/>
+	<classpathentry kind="lib" path="docroot/html/kindeditor/jsp/lib/json_simple-1.1.jar"/>
 	<classpathentry kind="output" path="docroot/WEB-INF/classes"/>
 </classpath>
