@@ -25,10 +25,10 @@
 	$(function() {
 		
 		getData();
-			
-		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
 		
-		$("#deleteButton").hide();
+		$('input[name="news_entry"]').prop("checked", false);
+		
+		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
 		
 		/* $('input[name="news_entry"]').on('click', function(){
 			alert(1);
@@ -48,18 +48,11 @@
 		
 	});
 	var checkAllTrigger = false;
-	var deletePrepareMap = {};
+	var newsArr = [];
 	
  	function checkAll(){
 		if(!checkAllTrigger){
 			$('input[name="news_entry"]').prop('checked',true);
-			/* var currentObj = $('input[name="news_entry"]:first');
-			if(currentObj.attr("id")!= null && currentObj.attr("id")!= undifined){
-				deletePrepareMap[currentObj.attr("id")] = currentObj.attr("id").toString();
-			}
-			if(){
-				
-			} */
 			checkAllTrigger = true;
 		}else{
 			$('input[name="news_entry"]').prop('checked',false);
@@ -67,8 +60,43 @@
 		}
 	}
  	
- 	function deletePrepareMap(){
- 		
+	function batchDeleteFun(){
+		$('input[name="news_entry"]').each(function(){
+			if($(this).prop("checked")){
+				newsArr.push($(this).prop("id"));
+			}
+		});
+		if(newsArr.toString()!= null && newsArr.toString()!= ""){
+			if(confirm="确定批量删除？"){
+				console.log("newsArr: "+newsArr.toString()+":"+typeof(newsArr));
+				newsArr = [];
+			}
+		}else{
+			alert("至少选择一个需要删除的条目。");
+		}
+	}
+ 	
+ 	function batchDeleteAjax(){
+ 		$.ajax({
+			type : "POST",
+			async : false,
+			url : urlPrefix + "/eipNews/batchDelete",
+			data : {
+				"newsArr" : newsArr.toString()
+			},
+			dataType : "jsonp", 
+			jsonp : "callback",
+			//jsonpCallback:"query",
+			success : function(data) {
+				if(data[0]=="success"){
+					alert("删除成功");
+					newsArr = [];
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("删除失败");
+			}
+		});
  	}
  	
  	function changeState(obj){
@@ -290,8 +318,8 @@
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="newsType_anno">查询通告</a></li>
 		</ul>
 	</div>
-	<div class="btn-group" style="float:left; margin-top: 15px;" id="deleteButton">
-		<button type="button" class="btn btn-info">删除</button>
+	<div class="btn-group" style="float:left; margin-top: 15px;">
+		<button type="button" class="btn btn-info" id="batchDelete" onclick="batchDeleteFun()">批量删除</button>
 	</div>
 	<div style="float:left; margin-top: 15px;"><span id="getEntryNums"></span></div>
 </div>
