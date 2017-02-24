@@ -65,6 +65,10 @@
 		}
 	}
  	
+ 	function deletePrepareMap(){
+ 		
+ 	}
+ 	
  	function changeState(obj){
  		if(!$(obj).prop('checked')){
  			$("#selectAll").prop('checked', false);

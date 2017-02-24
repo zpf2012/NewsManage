@@ -32,8 +32,8 @@
 <ul id="NATab" class="nav nav-tabs">
     <li class="active"> <a href="#pubNews" data-toggle="tab">发布新闻</a></li>
     <li> <a href="#pubAnno" data-toggle="tab">发布通告</a></li>
-    <li> <a href="#newsMng" data-toggle="tab">新闻管理</a></li>
-    <li> <a href="#annoMng" data-toggle="tab">通告管理</a></li>
+    <li> <a href="#newsMng" data-toggle="tab">新闻/通告管理</a></li>
+   <!--  <li> <a href="#annoMng" data-toggle="tab">通告管理</a></li> -->
 
 </ul>
 
@@ -47,9 +47,9 @@
     <div class="tab-pane fade" id="newsMng">
         <%@ include file="/html/NewMng/newsMng.jsp"%>
     </div>
-    <div class="tab-pane fade" id="annoMng">
+    <%-- <div class="tab-pane fade" id="annoMng">
         <%@ include file="/html/NewMng/annoMng.jsp"%>
-    </div>
+    </div> --%>
 </div>
 
 <script>
