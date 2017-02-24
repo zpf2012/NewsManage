@@ -21,25 +21,21 @@
 	var html = '';
 	var htmlTemp = template;
 	var optionsTemp = options;
+	var newsMap = [];
 	
 	$(function() {
 		
 		getData();
 		
+<<<<<<< HEAD
 		$('input[name="news_entry"]').prop("checked", false);
 		
 		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
+=======
+		$('input[name="news_entry"]').prop('checked',false);
+>>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
 		
-		/* $('input[name="news_entry"]').on('click', function(){
-			alert(1);
-			$('input[type="checkbox"]').each(function(){
-				alert($(this).prop('checked'));
-				 if($(this).prop('checked') == true){
-				}
-			});
-					$("#deleteButton").show();
-		}); */
-		 
+		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
 		
 		/* html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
 			+ '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>'
@@ -48,7 +44,78 @@
 		
 	});
 	var checkAllTrigger = false;
+<<<<<<< HEAD
 	var newsArr = [];
+=======
+	var deletePrepareMap = [];
+	
+	function batchDelete(){
+		if(newsMap == []){
+			alert("请先选择需要删除的条目。");
+		}else{
+			if(confirm('确定删除吗 ？')){
+				/* alert(map.toJSON());*/
+				/* for(var key in map){
+					alert(map[key]);
+				} */
+				//var tableObj = document.getElementById("myTable");
+				
+		 	    /* for (var i = 1; i <= pageSize; i++) {    //遍历Table的所有Row
+	 	        	var current_obj = tableObj.rows[i].cells[0].innerHTML;
+					var currentNewId = $(current_obj).attr("id");
+					
+					alert($(current_obj).prop('checked'));
+					/* if($(current_obj).prop('checked')== true){
+						deletePrepareMap[i] = currentNewId;
+					}else{
+						deletePrepareMap[i] = 0;
+					}
+		 	    } */
+		 	    $('input[name="news_entry"]').each(function(){
+		 	    	//alert(1);
+		 	    	if($(this).prop('checked')){
+		 	    		newsMap.push($(this).prop("id"));
+		 	    	}
+		 	    	//batchDeleteAjax();
+		 	    });
+				alert("批量删除成功。");
+			}else{
+				alert("取消删除操作");
+			}
+		}
+	}
+	
+	function  batchDeleteAjax(){
+		$.ajax({
+			//提交数据的类型 POST GET
+			type : "POST",
+			//表示同步	false true
+			async : false,
+			//提交的网址
+			//url : "http://asc.hand-china.com/eip/api/public/employee/hrmsEmployeeV/queryEmp",
+			//http://10.211.110.207:9080/api/public/news/eipNews/query
+			url : urlPrefix + "/eipNews/batchDelete",
+			data : {
+				"newsMap" : newsMap
+			},
+			dataType : "jsonp", //"xml", "html", "script", "json", "jsonp", "text".
+			//解决跨域问题
+			jsonp : "callback",
+			//jsonpCallback:"query",
+			success : function(data) {
+				if(data[0]=="success"){
+					getData();
+				}else{
+					alert("批量删除失败");
+				}
+				newsMap = [];
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				
+			}
+		});
+	}
+>>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
 	
  	function checkAll(){
 		if(!checkAllTrigger){
@@ -60,6 +127,7 @@
 		}
 	}
  	
+<<<<<<< HEAD
 	function batchDeleteFun(){
 		$('input[name="news_entry"]').each(function(){
 			if($(this).prop("checked")){
@@ -97,12 +165,27 @@
 				alert("删除失败");
 			}
 		});
+=======
+ 	function deletePrepareMap(){
+ 		var tableObj = document.getElementById("myTable");
+ 	    for (var i = 0; i < tableObj.rows.length; i++) {    //遍历Table的所有Row
+ 	        for (var j = 0; j < tableObj.rows[i].cells.length; j++) {   //遍历Row中的每一列
+ 	            tableInfo += tableObj.rows[i].cells[0].innerText;   //获取Table中单元格的内容
+ 	            alert(tableInfo);
+ 	        }
+ 	        tableInfo += "\n";
+ 	    }
+ 	    return tableInfo;
+>>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
  	}
  	
  	function changeState(obj){
  		if(!$(obj).prop('checked')){
+ 			$(this).prop('checked', false);
  			$("#selectAll").prop('checked', false);
  			checkAllTrigger = false;
+ 		}else{
+ 			$(obj).prop('checked', true);
  		}
  	}
 	
@@ -180,6 +263,8 @@
 						total = data[i].total;
 						pages = Math.ceil(total/pageSize) ;
 					}else{
+						var key = 'id'+data[i].newsId;
+						newsMap[key] = '';
 						optionsTemp = optionsTemp.replace("##new_id##",
 								data[i].newsId);
 						optionsTemp = optionsTemp.replace("##new_id##",
@@ -318,8 +403,13 @@
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="newsType_anno">查询通告</a></li>
 		</ul>
 	</div>
+<<<<<<< HEAD
 	<div class="btn-group" style="float:left; margin-top: 15px;">
 		<button type="button" class="btn btn-info" id="batchDelete" onclick="batchDeleteFun()">批量删除</button>
+=======
+	<div class="btn-group" style="float:left; margin-top: 15px;" id="deleteButton">
+		<button type="button" class="btn btn-info" onclick="batchDelete()">批量删除</button>
+>>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
 	</div>
 	<div style="float:left; margin-top: 15px;"><span id="getEntryNums"></span></div>
 </div>
