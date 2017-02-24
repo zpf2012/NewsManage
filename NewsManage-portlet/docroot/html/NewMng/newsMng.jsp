@@ -380,13 +380,8 @@
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="newsType_anno">查询通告</a></li>
 		</ul>
 	</div>
-<<<<<<< HEAD
 	<div class="btn-group" style="float:left; margin-top: 15px;">
 		<button type="button" class="btn btn-info" id="batchDelete" onclick="batchDeleteFun()">批量删除</button>
-=======
-	<div class="btn-group" style="float:left; margin-top: 15px;" id="deleteButton">
-		<button type="button" class="btn btn-info" onclick="batchDelete()">批量删除</button>
->>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
 	</div>
 	<div style="float:left; margin-top: 15px;"><span id="getEntryNums"></span></div>
 </div>
