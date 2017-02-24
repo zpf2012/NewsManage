@@ -21,7 +21,6 @@
 	var html = '';
 	var htmlTemp = template;
 	var optionsTemp = options;
-	var newsMap = [];
 	
 	$(function() {
 		
@@ -53,10 +52,11 @@
 			}
 		});
 		if(newsArr.toString()!= null && newsArr.toString()!= ""){
-			if(confirm="确定批量删除？"){
+			if(confirm("确定批量删除？")){
 				console.log("newsArr: "+newsArr.toString()+":"+typeof(newsArr));
 				//batchDeleteAjax();
 				newsArr = [];
+				getData();
 			}
 		}else{
 			alert("至少选择一个需要删除的条目。");
@@ -77,13 +77,13 @@
 			success : function(data) {
 				if(data[0]=="success"){
 					alert("删除成功");
-					newsArr = [];
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				alert("删除失败");
 			}
 		});
+ 	}
  	
  	function changeState(obj){
  		if(!$(obj).prop('checked')){
@@ -169,8 +169,6 @@
 						total = data[i].total;
 						pages = Math.ceil(total/pageSize) ;
 					}else{
-						var key = 'id'+data[i].newsId;
-						newsMap[key] = '';
 						optionsTemp = optionsTemp.replace("##new_id##",
 								data[i].newsId);
 						optionsTemp = optionsTemp.replace("##new_id##",
@@ -259,9 +257,7 @@
 	}
 	
 </script>
-<!-- <div class="btn-group lfr-icon-menu current-page-menu">
-<a class="dropdown-toggle direction-down max-display-items-15 btn" title="页码" aria-haspopup="true" role="button"><span class="lfr-icon-menu-text">页码</span><i class="caret"></i> </a>
-</div> -->
+
 <div style="width:50%;float:left;">
 	<div class="btn-group" style="float:left; margin-top: 15px;">
 		<button type="button" class="btn btn-info dropdown-toggle"
