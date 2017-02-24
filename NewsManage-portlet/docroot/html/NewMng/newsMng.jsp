@@ -21,16 +21,25 @@
 	var html = '';
 	var htmlTemp = template;
 	var optionsTemp = options;
-	var newsMap = [];
 	
 	$(function() {
 		
 		getData();
-
-		$('input[name="news_entry"]').prop("checked", false);
-		
+			
 		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
-
+		
+		$("#deleteButton").hide();
+		
+		/* $('input[name="news_entry"]').on('click', function(){
+			alert(1);
+			$('input[type="checkbox"]').each(function(){
+				alert($(this).prop('checked'));
+				 if($(this).prop('checked') == true){
+				}
+			});
+					$("#deleteButton").show();
+		}); */
+		 
 		
 		/* html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
 			+ '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>'
@@ -39,78 +48,18 @@
 		
 	});
 	var checkAllTrigger = false;
-	var newsArr = [];
-	
-	function batchDelete(){
-		if(newsMap == []){
-			alert("请先选择需要删除的条目。");
-		}else{
-			if(confirm('确定删除吗 ？')){
-				/* alert(map.toJSON());*/
-				/* for(var key in map){
-					alert(map[key]);
-				} */
-				//var tableObj = document.getElementById("myTable");
-				
-		 	    /* for (var i = 1; i <= pageSize; i++) {    //遍历Table的所有Row
-	 	        	var current_obj = tableObj.rows[i].cells[0].innerHTML;
-					var currentNewId = $(current_obj).attr("id");
-					
-					alert($(current_obj).prop('checked'));
-					/* if($(current_obj).prop('checked')== true){
-						deletePrepareMap[i] = currentNewId;
-					}else{
-						deletePrepareMap[i] = 0;
-					}
-		 	    } */
-		 	    $('input[name="news_entry"]').each(function(){
-		 	    	//alert(1);
-		 	    	if($(this).prop('checked')){
-		 	    		newsMap.push($(this).prop("id"));
-		 	    	}
-		 	    	//batchDeleteAjax();
-		 	    });
-				alert("批量删除成功。");
-			}else{
-				alert("取消删除操作");
-			}
-		}
-	}
-	
-	function  batchDeleteAjax(){
-		$.ajax({
-			//提交数据的类型 POST GET
-			type : "POST",
-			//表示同步	false true
-			async : false,
-			//提交的网址
-			//url : "http://asc.hand-china.com/eip/api/public/employee/hrmsEmployeeV/queryEmp",
-			//http://10.211.110.207:9080/api/public/news/eipNews/query
-			url : urlPrefix + "/eipNews/batchDelete",
-			data : {
-				"newsMap" : newsMap
-			},
-			dataType : "jsonp", //"xml", "html", "script", "json", "jsonp", "text".
-			//解决跨域问题
-			jsonp : "callback",
-			//jsonpCallback:"query",
-			success : function(data) {
-				if(data[0]=="success"){
-					getData();
-				}else{
-					alert("批量删除失败");
-				}
-				newsMap = [];
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				
-			}
-		});
-	}
+	var deletePrepareMap = {};
 	
  	function checkAll(){
 		if(!checkAllTrigger){
 			$('input[name="news_entry"]').prop('checked',true);
+			/* var currentObj = $('input[name="news_entry"]:first');
+			if(currentObj.attr("id")!= null && currentObj.attr("id")!= undifined){
+				deletePrepareMap[currentObj.attr("id")] = currentObj.attr("id").toString();
+			}
+			if(){
+				
+			} */
 			checkAllTrigger = true;
 		}else{
 			$('input[name="news_entry"]').prop('checked',false);
@@ -118,51 +67,14 @@
 		}
 	}
  	
-	function batchDeleteFun(){
-		$('input[name="news_entry"]').each(function(){
-			if($(this).prop("checked")){
-				newsArr.push($(this).prop("id"));
-			}
-		});
-		if(newsArr.toString()!= null && newsArr.toString()!= ""){
-			if(confirm="确定批量删除？"){
-				console.log("newsArr: "+newsArr.toString()+":"+typeof(newsArr));
-				newsArr = [];
-			}
-		}else{
-			alert("至少选择一个需要删除的条目。");
-		}
-	}
- 	
- 	function batchDeleteAjax(){
- 		$.ajax({
-			type : "POST",
-			async : false,
-			url : urlPrefix + "/eipNews/batchDelete",
-			data : {
-				"newsArr" : newsArr.toString()
-			},
-			dataType : "jsonp", 
-			jsonp : "callback",
-			//jsonpCallback:"query",
-			success : function(data) {
-				if(data[0]=="success"){
-					alert("删除成功");
-					newsArr = [];
-				}
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("删除失败");
-			}
-		});
+ 	function deletePrepareMap(){
+ 		
+ 	}
  	
  	function changeState(obj){
  		if(!$(obj).prop('checked')){
- 			$(this).prop('checked', false);
  			$("#selectAll").prop('checked', false);
  			checkAllTrigger = false;
- 		}else{
- 			$(obj).prop('checked', true);
  		}
  	}
 	
@@ -240,8 +152,6 @@
 						total = data[i].total;
 						pages = Math.ceil(total/pageSize) ;
 					}else{
-						var key = 'id'+data[i].newsId;
-						newsMap[key] = '';
 						optionsTemp = optionsTemp.replace("##new_id##",
 								data[i].newsId);
 						optionsTemp = optionsTemp.replace("##new_id##",
@@ -380,8 +290,8 @@
 			<li><a href="javascript:void(0)" onclick="clickFun(this)" id="newsType_anno">查询通告</a></li>
 		</ul>
 	</div>
-	<div class="btn-group" style="float:left; margin-top: 15px;">
-		<button type="button" class="btn btn-info" id="batchDelete" onclick="batchDeleteFun()">批量删除</button>
+	<div class="btn-group" style="float:left; margin-top: 15px;" id="deleteButton">
+		<button type="button" class="btn btn-info">删除</button>
 	</div>
 	<div style="float:left; margin-top: 15px;"><span id="getEntryNums"></span></div>
 </div>
