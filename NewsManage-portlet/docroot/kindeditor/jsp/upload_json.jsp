@@ -157,6 +157,8 @@
 		try {
 			String fileName = java.net.URLEncoder.encode(fileEntry.getTitle(),"utf-8");
 			String homeURL = configMap.get("liferayUrl");
+			
+			
 			System.out.print(configMap);
 			long repositoryId = fileEntry.getRepositoryId();
 			String uuid = fileEntry.getUuid();
