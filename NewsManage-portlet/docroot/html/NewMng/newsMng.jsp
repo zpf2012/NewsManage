@@ -25,19 +25,21 @@
 	$(function() {
 		
 		getData();
-
+			
 		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
 		
 		$("#deleteButton").hide();
 		
-		$('input[type="checkbox"]').on('click', function(){
-			$('input[type="checkbox"]').each(function(index){
+		$('input[name="news_entry"]').on('click', function(){
+			alert(1);
+			/* $('input[type="checkbox"]').each(function(){
 				alert($(this).prop('checked'));
-				if($(this).prop('checked') == true){
+				 if($(this).prop('checked') == true){
+				}
+			}); */
 					$("#deleteButton").show();
-				} 
-			});
 		});
+		 
 		
 		/* html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
 			+ '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>'

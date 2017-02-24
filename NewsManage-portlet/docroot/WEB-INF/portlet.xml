@@ -14,8 +14,8 @@
 			<mime-type>text/html</mime-type>
 		</supports>
 		<portlet-info>
-			<title>NewsManage</title>
-			<short-title>NewsManage</short-title>
+			<title>新闻管理</title>
+			<short-title>新闻管理</short-title>
 			<keywords>NewsManage</keywords>
 		</portlet-info>
 		<security-role-ref>
