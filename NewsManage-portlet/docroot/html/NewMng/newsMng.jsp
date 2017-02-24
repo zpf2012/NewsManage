@@ -26,16 +26,11 @@
 	$(function() {
 		
 		getData();
-		
-<<<<<<< HEAD
+
 		$('input[name="news_entry"]').prop("checked", false);
 		
 		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
-=======
-		$('input[name="news_entry"]').prop('checked',false);
->>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
-		
-		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
+
 		
 		/* html = '<table id="myTable" border="1" class="table table-bordered table-hover table-striped">'
 			+ '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>'
@@ -44,10 +39,7 @@
 		
 	});
 	var checkAllTrigger = false;
-<<<<<<< HEAD
 	var newsArr = [];
-=======
-	var deletePrepareMap = [];
 	
 	function batchDelete(){
 		if(newsMap == []){
@@ -115,7 +107,6 @@
 			}
 		});
 	}
->>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
 	
  	function checkAll(){
 		if(!checkAllTrigger){
@@ -127,7 +118,6 @@
 		}
 	}
  	
-<<<<<<< HEAD
 	function batchDeleteFun(){
 		$('input[name="news_entry"]').each(function(){
 			if($(this).prop("checked")){
@@ -165,19 +155,6 @@
 				alert("删除失败");
 			}
 		});
-=======
- 	function deletePrepareMap(){
- 		var tableObj = document.getElementById("myTable");
- 	    for (var i = 0; i < tableObj.rows.length; i++) {    //遍历Table的所有Row
- 	        for (var j = 0; j < tableObj.rows[i].cells.length; j++) {   //遍历Row中的每一列
- 	            tableInfo += tableObj.rows[i].cells[0].innerText;   //获取Table中单元格的内容
- 	            alert(tableInfo);
- 	        }
- 	        tableInfo += "\n";
- 	    }
- 	    return tableInfo;
->>>>>>> 495bc2f151198fbeb5b32fd8bb176ecfe5fc58f9
- 	}
  	
  	function changeState(obj){
  		if(!$(obj).prop('checked')){
