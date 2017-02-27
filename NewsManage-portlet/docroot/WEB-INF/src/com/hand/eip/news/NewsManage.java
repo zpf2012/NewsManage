@@ -44,7 +44,7 @@ public class NewsManage extends MVCPortlet {
 
 	
 	@ProcessAction(name = "pubNews")
-	public void toEditNews(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, PortalException,SystemException {
+	public void pubNews(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, PortalException,SystemException {
 		long userId = PortalUtil.getUser(actionRequest).getUserId();
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(actionRequest);
 		String newTitle = ParamUtil.getString(actionRequest, "newTitle", "无标题");
