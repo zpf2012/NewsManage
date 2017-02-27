@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -57,16 +58,19 @@ public class NewsManage extends MVCPortlet {
 		File file = uploadPortletRequest.getFile("morePicture");
 		//System.out.println("file" + file);// 服务器上临时文件夹
 		String fileName = uploadPortletRequest.getFullFileName("morePicture");
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+		String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000)+fileName;
+		
 		//System.out.println("fileName" + fileName);// img-test123.jpg
 		String mimeType = uploadPortletRequest.getContentType("morePicture");
 		//System.out.println("mimeType" + mimeType);// /image/jpeg
 		long repositoryId = Long.parseLong(config.get("repositoryId"));
 		long folderId = Long.parseLong(config.get("folderId"));
 		InputStream is = new FileInputStream(file);
-		url = uploadFile(repositoryId, folderId, is,file.length(), fileName, mimeType,serviceContext);
-		//System.out.println("url:" + url);
+		url = uploadFile(repositoryId, folderId, is,file.length(), newFileName, mimeType,serviceContext);
 
-		String s = NewsManage.post(config.get("serverUrl")+"/eip/api/public/news/eipNews/insertNews","url=" 
+		String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertNews","url=" 
 				+ url + "&newTitle=" 
 				+ newTitle + "&newSignatureName=" 
 				+ newSignatureName + "&newSummary=" 
@@ -121,9 +125,7 @@ public class NewsManage extends MVCPortlet {
 		StringBuffer stringBuffer = new StringBuffer();
 		try {
 			String fileName = java.net.URLEncoder.encode(fileEntry.getTitle(),"utf-8");
-			String homeURL = config.get("liferayUrl");
-			
-			
+			String homeURL = config.get("liferayUrl");					
 			System.out.print(config);
 			long repositoryId = fileEntry.getRepositoryId();
 			String uuid = fileEntry.getUuid();
