@@ -10,7 +10,7 @@ public class ReadConfigFile {
 	
 	public static Map<String, String> getContent(){
 		Map<String, String> map = new HashMap<String, String>();
-		InputStream resourceAsStream = ReadConfigFile.class.getClassLoader().getResourceAsStream("/config.properties");
+		InputStream resourceAsStream = ReadConfigFile.class.getClassLoader().getResourceAsStream("config.properties");
 		Properties properties = new Properties();
 		try {
 			properties.load(resourceAsStream);

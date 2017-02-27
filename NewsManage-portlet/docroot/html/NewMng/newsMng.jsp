@@ -1,19 +1,19 @@
 <%@page language="java" pageEncoding="UTF-8"%>
 
-<portlet:renderURL var="newPreview">
+<%-- <%@ include file="../init.jsp" %> --%>
+<%-- <portlet:renderURL var="newPreview">
 	<portlet:param name="newId" value="newView.jsp"/>
 	<portlet:param name="mvcPath" value="newView.jsp"/>
-</portlet:renderURL>
-
-
+</portlet:renderURL> --%>
 
 <script type="text/javascript">
-	var urlPrefix = '<%=map.get("urlPrefix")%>';
+	var urlPrefix = '<%=map.get("urlPrefix") %>';
 	var total = 0;
 	var head = '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>类型</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>';
 
-	var options = '<a title="newPreview" href="<%=newPreview %>" target="_blank" onclick="newPreview()">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
-	//var options = '<a href="/view/##new_id##">预览</a>&nbsp;&nbsp;<a href="/edit/##new_id##">编辑</a>&nbsp;&nbsp;<a href="/delete/##new_id##">删除</a>';
+	<%-- var options = '<a title="newPreview" href="<%=newPreview %>" target="_blank" onclick="newPreview()">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
+	 --%>
+	var options = '<a href="/view/##new_id##">预览</a>&nbsp;&nbsp;<a href="/edit/##new_id##">编辑</a>&nbsp;&nbsp;<a href="/delete/##new_id##">删除</a>';
 	var template = '<tbody class="table-data"><tr><td><input id="##new_id##" name="news_entry" onclick="changeState(this)" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##newsType##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
 
 	
@@ -63,7 +63,7 @@
 		if(newsArr.toString()!= null && newsArr.toString()!= ""){
 			if(confirm("确定批量删除？")){
 				console.log("newsArr: "+newsArr.toString()+":"+typeof(newsArr));
-				//batchDeleteAjax();
+				batchDeleteAjax();
 				newsArr = [];
 				getData();
 			}
