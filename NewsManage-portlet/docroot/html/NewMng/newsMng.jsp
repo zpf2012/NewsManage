@@ -1,10 +1,11 @@
-<%@page language="java" contentType="text/html;charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@include file="../init.jsp"%>
+<%@page language="java" pageEncoding="UTF-8"%>
+
 <portlet:renderURL var="newPreview">
 	<portlet:param name="newId" value="newView.jsp"/>
 	<portlet:param name="mvcPath" value="newView.jsp"/>
 </portlet:renderURL>
+
+
 
 <script type="text/javascript">
 	var urlPrefix = '<%=map.get("urlPrefix")%>';

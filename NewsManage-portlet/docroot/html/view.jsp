@@ -36,7 +36,7 @@
        <%@ include file="/html/NewMng/pubAnno.jsp"%> 
     </div>
     <div class="tab-pane fade" id="newsMng">
-       <%--  <%@ include file="/html/NewMng/newsMng.jsp"%> --%>
+      <%@ include file="/html/NewMng/newsMng.jsp"%>
     </div>
     <%-- <div class="tab-pane fade" id="annoMng">
         <%@ include file="/html/NewMng/annoMng.jsp"%>
