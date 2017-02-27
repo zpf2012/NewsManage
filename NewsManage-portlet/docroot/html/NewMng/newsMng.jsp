@@ -58,14 +58,17 @@
 					//$("#newsId").val(data.thisNews.newsId);
 					$("#pubNews").prop("class", "tab-pane fade in active");
 					$('a[href="#pubNews"]').parent().prop('class', 'active');
-					alert(data.thisNews.summary+"///"+data.thisNews.content);
+					/* alert(data.thisNews.summary+"///"+data.thisNews.content); */
 					
 					$("#moreTitle").val(data.thisNews.title);
 					$("#moreAuthor").val(data.thisNews.signatureName);
-					$("#picturePath").val(data.thisNews.titlePicUrl);
+ 					$("#picturePath0").attr("src", data.thisNews.titlePicUrl);
+					$("#moreSummary").html(data.thisNews.content);
 					
-					$("#moreSummary").val(data.thisNews.summary);
-					$("#moreContent").val(data.thisNews.content);
+ 					var cont = data.thisNews.content;
+					alert(cont);
+					
+					$("#moreContent").html(cont);
 					
 					/* $('a[href="#newsMng"]').parent().prop('class', '');
 					$("#newsMng").prop("class", "tab-pane fade"); */
