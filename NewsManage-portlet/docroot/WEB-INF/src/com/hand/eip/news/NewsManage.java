@@ -12,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class NewsManage extends MVCPortlet {
 		String newSignatureName = ParamUtil.getString(actionRequest,"newSignatureName", "无作者");
 		String newSummary = ParamUtil.getString(actionRequest, "newSummary","无摘要");
 		String newContent = ParamUtil.getString(actionRequest, "newContent","无内容");
+		newContent = URLEncoder.encode(newContent, "UTF-8");
 		
 		String url = "";
 		UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);
@@ -96,6 +98,7 @@ public class NewsManage extends MVCPortlet {
 		String userName = PortalUtil.getUser(actionRequest).getLastName();
 		String title = ParamUtil.getString(actionRequest, "annTitle", "无标题");
 		String content = ParamUtil.getString(actionRequest, "annContent","无内容");
+		content = URLEncoder.encode(content, "UTF-8");
 
 		String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertAnnouncement","title=" 
 				+ title + "&content=" 
