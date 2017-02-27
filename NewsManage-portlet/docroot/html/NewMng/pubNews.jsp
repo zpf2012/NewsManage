@@ -1,5 +1,6 @@
 <%@page language="java" contentType="text/html; charset=UTF-8"	pageEncoding="UTF-8"%>
 
+
 <portlet:actionURL var="pubNews" name="pubNews">
 	<portlet:param name="mvcPath" value="/html/NewMng/pubNews.jsp"/>
 </portlet:actionURL>
@@ -38,11 +39,11 @@ KindEditor.ready(function(K) {
 				<form id="form2" name="newExample" method="post" onsubmit="return checkNews();" action="${pubNews }" enctype="multipart/form-data">
 					<div class="zz_rele_d_2_a">文章标题</div>
 					<div class="zz_rele_d_2_b">
-						<input type="text" id="moreTitle" name="newTitle" placeholder="*请输入文章标题（30字以内）必填" style="width: 686px; height: 30px;">
+						<input type="text" id="moreTitle" name="newTitle" placeholder="*请输入文章标题（30字以内）必填" style="width: 686px; height: 30px;" />
 					</div>
 					<div class="zz_rele_d_2_c">文章作者</div>
 					<div class="zz_rele_d_2_d">
-						<input type="text" id="moreAuthor" name="newSignatureName" placeholder="*请输入文章作者（10字以内）选填" style="width: 686px; height: 30px;">
+						<input type="text" id="moreAuthor" name="newSignatureName" placeholder="*请输入文章作者（10字以内）选填" style="width: 686px; height: 30px;"/>
 					</div>
 					<div class="zz_rele_d_2_e">
 						<div class="zz_rele_d_2_e_1">

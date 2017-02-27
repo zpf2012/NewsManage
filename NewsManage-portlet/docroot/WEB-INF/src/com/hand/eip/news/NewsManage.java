@@ -126,7 +126,6 @@ public class NewsManage extends MVCPortlet {
 		try {
 			String fileName = java.net.URLEncoder.encode(fileEntry.getTitle(),"utf-8");
 			String homeURL = config.get("liferayUrl");					
-			System.out.print(config);
 			long repositoryId = fileEntry.getRepositoryId();
 			String uuid = fileEntry.getUuid();
 			stringBuffer.append(homeURL+"/documents/"+repositoryId+"/"+Integer.parseInt(config.get("folderId"))+"/"+fileName+"/"+uuid);	
