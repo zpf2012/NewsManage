@@ -1,6 +1,12 @@
 <%@page language="java"  pageEncoding="UTF-8" %>
 
 
+
+<portlet:actionURL var="pubAnno" name="pubAnno">
+	<portlet:param name="mvcPath" value="/html/NewMng/pubAnno.jsp"/>
+</portlet:actionURL>
+
+
 <script>
 var editor1;
 KindEditor.ready(function(K) {
@@ -31,7 +37,7 @@ KindEditor.ready(function(K) {
 
 			<!-- 发布通告 -->
 			<div id="aa" class="zz_rele_d_3">
-				<form id="form1" name="example" method="post" onsubmit="return checkAnn();" action="${editAnnounce }" enctype="multipart/form-data">
+				<form id="form1" name="example" method="post" onsubmit="return checkAnn();" action="${pubAnno}" enctype="multipart/form-data">
 					<div class="zz_rele_d_3_a">文章标题</div>
 					<div class="zz_rele_d_3_b">
 						<input type="text" name="annTitle" id="annTitle" placeholder="*请输入文章标题（30字以内）必填" style="width: 686px; height: 30px;">

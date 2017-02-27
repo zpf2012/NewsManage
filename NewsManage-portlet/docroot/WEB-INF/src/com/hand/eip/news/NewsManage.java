@@ -83,6 +83,32 @@ public class NewsManage extends MVCPortlet {
 	}
 	
 	/**
+	 * 
+	 * @param actionRequest
+	 * @param actionResponse
+	 * @throws IOException
+	 * @throws PortalException
+	 * @throws SystemException
+	 */
+	@ProcessAction(name = "pubAnno")
+	public void toEditAnnounce(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, PortalException,SystemException {
+		long userId = PortalUtil.getUser(actionRequest).getUserId();
+		String userName = PortalUtil.getUser(actionRequest).getLastName();
+		String title = ParamUtil.getString(actionRequest, "annTitle", "无标题");
+		String content = ParamUtil.getString(actionRequest, "annContent","无内容");
+
+		String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertAnnouncement","title=" 
+				+ title + "&content=" 
+				+ content + "&userId=" 
+				+ userId+ "&userName=" + userName);
+
+		if (s == null) {
+			actionRequest.setAttribute("messageAnn", "发布通告成功！");
+		}
+	}
+	
+	
+	/**
 	 * 上传新闻或通告图片
 	 * 
 	 * @param request
