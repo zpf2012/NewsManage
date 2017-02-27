@@ -16,7 +16,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="theme" %>
 <script src="<%=request.getContextPath()%>/js/jquery-1.10.2.min.js"></script>
-<link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet">
+<%-- <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet"> --%>
 <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
 
 

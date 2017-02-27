@@ -1,3 +1,5 @@
+<%@page import="com.hand.eip.news.ReadConfigFile"%>
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@page import="com.liferay.portal.service.ServiceContextFactory"%>
@@ -6,7 +8,6 @@
 .xfNews{
 		position:relative;
 		width: 100%;
-		height: 100%;
 		background-color: white;
 		border: 1px #cccccc solid;
 	}
@@ -80,10 +81,15 @@
 		line-height: 28px;
 	}
 </style>
+<%
+	Map<String, String> thisMap = ReadConfigFile.getContent();
+%>
+<script src="<%=request.getContextPath()%>/js/jquery-1.10.2.min.js"></script>
+
 <div class="xfNews">
 	<div class="newsDetail">
 		<div class="newsTop" id="newsTop">
-			<div class="newsTitle" id="newsTitle">《认识汉得百人》谁言别后终无悔，清夜寒霄夜梦回——EPM事业部TB</div>
+			<div class="newsTitle" id="newsTitle">Title</div>
 			<div class="newsNameDate" id="newsNameDate"><span id="signatureName">汉得信息</span>&nbsp;<span id="releaseDate">2016-12-10</span></div>
 		</div><br>
 		<div class="newsCenter" id="newsCenter" >无内容</div>
@@ -91,28 +97,29 @@
 	</div>
 </div>
 <script type="text/javascript">
-	var thisNewsId = window.location.search.substring(1).split("=")[1];
-	var zan="T";
+	var thisNewsId = '<%=request.getAttribute("new_id") %>';
+	var prefix = '<%=thisMap.get("urlPrefix")  %>';
 	var xfnum;
-	$(function(){
-		//queryNewsDetail(thisNewsId);
-
+	$.ajax({
+		type : "GET",
+		dataType : "jsonp",
+		jsonp:"callback",
+		jsonpCallback:'newsDetail',
+		//http://10.211.110.207:9080/api/public/news/eipNews/queryNewsDetail?newsId=10212
+		url : 'http://asc.hand-china.com/eip/api/public/news/eipNews/queryNewsDetail',
+		//url : prefix+'/eipNews/queryNewsDetail',
+		data:{"newsId":10155},
+		success : function(data) {
+			//alert(data.thisNews.title);
+			//var title = data.thisNews.title;
+				//$("#newsTitle").html(data.thisnew.title.toString());
+				$("#newsTitle").html(data.thisNews.title);
+				$("#signatureName").html(data.thisNews.signatureName);
+				$("#releaseDate").html(data.thisNews.releaseDate);
+				$("#newsCenter").html(data.thisNews.content);
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			alert("请求内容失败");
+		}
 	});
-/* 	function queryNewsDetail(thisNewsId){
-		$.ajax({
-			type : "GET",
-			dataType : "jsonp",
-			jsonp:"callback",
-			jsonpCallback:'newsDetail',
-			url : 'http://asc.hand-china.com/eip/api/public/news/eipNews/queryNewsDetail',
-			data:{"newsId":thisNewsId},
-			success : function(data) {
-					$("#newsTitle").html(data.thisNews.title);
-					$("#signatureName").html(data.thisNews.signatureName);
-					$("#releaseDate").html(data.thisNews.releaseDate);
-					$("#newsCenter").html(data.thisNews.content);
-			}
-		});
-	}; */
-
 </script>

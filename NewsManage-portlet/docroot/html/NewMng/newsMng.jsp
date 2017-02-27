@@ -13,7 +13,7 @@
 
 	<%-- var options = '<a title="newPreview" href="<%=newPreview %>" target="_blank" onclick="newPreview()">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
 	 --%>
-	var options = '<a href="/view/##new_id##">预览</a>&nbsp;&nbsp;<a href="/edit/##new_id##">编辑</a>&nbsp;&nbsp;<a href="/delete/##new_id##">删除</a>';
+	var options = '<a href="<%=request.getContextPath() %>/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="<%=request.getContextPath() %>/edit?id=##new_id##" target="_blank">编辑</a>';
 	var template = '<tbody class="table-data"><tr><td><input id="##new_id##" name="news_entry" onclick="changeState(this)" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##newsType##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
 
 	
@@ -82,11 +82,9 @@
 			},
 			dataType : "jsonp", 
 			jsonp : "callback",
-			//jsonpCallback:"query",
+			jsonpCallback:"query",
 			success : function(data) {
-				if(data[0]=="success"){
-					alert("删除成功");
-				}
+				alert(data);
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				alert("删除失败");
