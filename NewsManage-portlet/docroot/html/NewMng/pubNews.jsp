@@ -37,6 +37,7 @@ KindEditor.ready(function(K) {
 			<!-- 发布新闻 -->
 			<div id ="nn" class="zz_rele_d_2">
 				<form id="form2" name="newExample" method="post" onsubmit="return checkNews();" action="${pubNews }" enctype="multipart/form-data">
+					<input type="hidden" id="newsId" name="newsId" />
 					<div class="zz_rele_d_2_a">文章标题</div>
 					<div class="zz_rele_d_2_b">
 						<input type="text" id="moreTitle" name="newTitle" placeholder="*请输入文章标题（30字以内）必填" style="width: 686px; height: 30px;" />
@@ -68,7 +69,7 @@ KindEditor.ready(function(K) {
 					<div style="margin-top: 20px;">
 						<textarea id="moreContent" name="newContent" cols="100" rows="8" style="width:696px; height:200px; visibility:hidden;"></textarea>
 						<br />
-						<input type="submit" id="newSubmit" value="发表新闻" class="zz_sumbit" style="text-align: center; font-size:16px; width:100px; height:28px; padding-top: 2px; font-family: 黑体; margin-bottom: 40px;"/><span>${messageNews }</span>
+						<input type="submit" id="newSubmit" value="提交" class="zz_sumbit" style="text-align: center; font-size:16px; width:100px; height:28px; padding-top: 2px; font-family: 黑体; margin-bottom: 40px;"/><span>${messageNews }</span>
 					</div>
 				</form>
 			</div>
