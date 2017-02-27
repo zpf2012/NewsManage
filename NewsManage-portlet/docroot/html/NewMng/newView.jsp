@@ -95,10 +95,10 @@
 	var zan="T";
 	var xfnum;
 	$(function(){
-		queryNewsDetail(thisNewsId);
+		//queryNewsDetail(thisNewsId);
 
 	});
-	function queryNewsDetail(thisNewsId){
+/* 	function queryNewsDetail(thisNewsId){
 		$.ajax({
 			type : "GET",
 			dataType : "jsonp",
@@ -113,6 +113,6 @@
 					$("#newsCenter").html(data.thisNews.content);
 			}
 		});
-	};
+	}; */
 
 </script>
