@@ -60,9 +60,10 @@ public class NewsManage extends MVCPortlet {
 		//System.out.println("fileName" + fileName);// img-test123.jpg
 		String mimeType = uploadPortletRequest.getContentType("morePicture");
 		//System.out.println("mimeType" + mimeType);// /image/jpeg
-		long repositoryId = 20182;
-		long folderId = 321425;
-		url = uploadFile(repositoryId, folderId, file, fileName, mimeType,serviceContext);
+		long repositoryId = Long.parseLong(config.get("repositoryId"));
+		long folderId = Long.parseLong(config.get("folderId"));
+		InputStream is = new FileInputStream(file);
+		url = uploadFile(repositoryId, folderId, is,file.length(), fileName, mimeType,serviceContext);
 		//System.out.println("url:" + url);
 
 		String s = NewsManage.post(config.get("serverUrl")+"/eip/api/public/news/eipNews/insertNews","url=" 
@@ -77,46 +78,40 @@ public class NewsManage extends MVCPortlet {
 		}
 	}
 	
-	
 	/**
-	 * 上传图片到liferay的文档媒体库
-	 * @param repositoryId
-	 * @param folderId
-	 * @param file
-	 * @param fileName
-	 * @param mimeType
-	 * @param serviceContext
-	 * @return
+	 * 上传新闻或通告图片
+	 * 
+	 * @param request
+	 * @param response
 	 */
-	public String uploadFile(long repositoryId, long folderId, File file,
-			String fileName, String mimeType, ServiceContext serviceContext) {
-		String URL = "";
+	public String uploadFile(long repositoryId, long folderId, InputStream is,long size,
+			String fileName, String mimeType, ServiceContext serviceContext){
+			String URL = "";
+		    repositoryId =	serviceContext.getScopeGroupId();
+		    long userId = serviceContext.getUserId();
 		try {
-			String description = "Upload InstallPKG";
-			String changeLog = "[UploadFile]" + file.getName();
-			InputStream is = new FileInputStream(file);
-			String sourceFileName = fileName;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-	        String time = sdf.format(new  Date());
-			String title = fileName+time;
-			//System.out.println(title);
-			long size = file.length();
+			String description = "新闻/通告图片";
+			String changeLog = "[UploadFile]" + fileName;
+			String title = fileName;
 			String[] filePermission = { "ADD_DISCUSSION", "VIEW" };
 			serviceContext.setGroupPermissions(filePermission);
-			FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(20199,repositoryId, folderId, sourceFileName, mimeType, title,description, changeLog, is, size, serviceContext);
+	  		FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(Integer.parseInt(config.get("userId")),repositoryId, folderId, fileName, mimeType, title,description, changeLog, is, size, serviceContext);
+	  		
+	/*  		FileEntry fileEntry = DLAppServiceUtil.addFileEntry(repositoryId, folderId, fileName, mimeType,title, description, "", is, size, serviceContext);
+	 */ 		
 			URL = getURL(fileEntry);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+
 		} catch (PortalException e) {
 			e.printStackTrace();
 		} catch (SystemException e) {
 			e.printStackTrace();
 		}
 		return URL;
-	}
-
+	}	
+	
 	/**
 	 * 获取文件的下载链接
+	 * 
 	 * @param groupId
 	 * @param folderId
 	 * @param title
@@ -126,32 +121,22 @@ public class NewsManage extends MVCPortlet {
 		StringBuffer stringBuffer = new StringBuffer();
 		try {
 			String fileName = java.net.URLEncoder.encode(fileEntry.getTitle(),"utf-8");
-			Properties properties = new Properties();
-			InputStream in = ConnectionFactory.class.getClassLoader().getResourceAsStream("config.properties");
-			properties.load(in);
-			String homeURL = properties.getProperty("liferayUrl");
+			String homeURL = config.get("liferayUrl");
+			
+			
+			System.out.print(config);
 			long repositoryId = fileEntry.getRepositoryId();
-			String treePath = "/321425/";
 			String uuid = fileEntry.getUuid();
-
-			stringBuffer.append(homeURL);
-			stringBuffer.append("/");
-			stringBuffer.append("documents");
-			stringBuffer.append("/");
-			stringBuffer.append(repositoryId);
-			stringBuffer.append(treePath);
-			stringBuffer.append(fileName);
-			stringBuffer.append("/");
-			stringBuffer.append(uuid);
-
+			stringBuffer.append(homeURL+"/documents/"+repositoryId+"/"+Integer.parseInt(config.get("folderId"))+"/"+fileName+"/"+uuid);	
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return stringBuffer.toString();
-
 	}
+	
+	
 
 	/**
 	 * java用post方式与后台HAP进行数据交互
