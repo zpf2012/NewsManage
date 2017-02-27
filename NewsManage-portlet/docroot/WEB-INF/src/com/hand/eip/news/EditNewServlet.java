@@ -31,7 +31,7 @@ public class EditNewServlet extends HttpServlet {
 		String new_id = request.getParameter("id");
 		request.setAttribute("new_id", new_id);
 		
-		String forword = "/html/NewMng/pubNews.jsp";
+		String forword = "/html/view.jsp";
 		RequestDispatcher rDispatcher = request.getRequestDispatcher(forword);
 		rDispatcher.forward(request, response);
 	}

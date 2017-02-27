@@ -82,12 +82,12 @@
 			},
 			dataType : "jsonp", 
 			jsonp : "callback",
-			jsonpCallback:"query",
+			//jsonpCallback:"query",
 			success : function(data) {
-				alert(data);
+				alert(data.result);
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert("删除失败");
+				alert("删除失败："+errorThrown);
 			}
 		});
  	}

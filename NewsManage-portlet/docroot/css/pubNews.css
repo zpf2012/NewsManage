@@ -33,8 +33,7 @@
 }
 .zz_rele{
 	position: relative;
-	width:100%;
-	height:100%;
+	width:99%;
 	background-color: white;
 	border: 1px #ccc solid;
 }

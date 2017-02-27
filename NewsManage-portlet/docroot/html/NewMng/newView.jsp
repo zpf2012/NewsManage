@@ -89,10 +89,10 @@
 <div class="xfNews">
 	<div class="newsDetail">
 		<div class="newsTop" id="newsTop">
-			<div class="newsTitle" id="newsTitle">Title</div>
-			<div class="newsNameDate" id="newsNameDate"><span id="signatureName">汉得信息</span>&nbsp;<span id="releaseDate">2016-12-10</span></div>
+			<div class="newsTitle" id="newsTitle"></div>
+			<div class="newsNameDate" id="newsNameDate"><span id="signatureName"></span>&nbsp;<span id="releaseDate"></span></div>
 		</div><br>
-		<div class="newsCenter" id="newsCenter" >无内容</div>
+		<div class="newsCenter" id="newsCenter" ></div>
 
 	</div>
 </div>
@@ -106,9 +106,9 @@
 		jsonp:"callback",
 		jsonpCallback:'newsDetail',
 		//http://10.211.110.207:9080/api/public/news/eipNews/queryNewsDetail?newsId=10212
-		url : 'http://asc.hand-china.com/eip/api/public/news/eipNews/queryNewsDetail',
-		//url : prefix+'/eipNews/queryNewsDetail',
-		data:{"newsId":10155},
+		//url : 'http://asc.hand-china.com/eip/api/public/news/eipNews/queryNewsDetail',
+		url : prefix+'/eipNews/queryNewsDetail',
+		data:{"newsId":thisNewsId},
 		success : function(data) {
 			//alert(data.thisNews.title);
 			//var title = data.thisNews.title;
