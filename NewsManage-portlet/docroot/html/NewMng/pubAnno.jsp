@@ -1,12 +1,5 @@
-<%@page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
-
-<link rel="stylesheet" href="<%=request.getContextPath() %>/kindeditor/themes/default/default.css" />
-<link rel="stylesheet" href="<%=request.getContextPath() %>/kindeditor/plugins/code/prettify.css" />
-<script charset="utf-8" src="<%=request.getContextPath() %>/kindeditor/kindeditor.js"></script>
-<script charset="utf-8" src="<%=request.getContextPath() %>/kindeditor/lang/zh_CN.js"></script>
-<script charset="utf-8" src="<%=request.getContextPath() %>/kindeditor/plugins/code/prettify.js"></script>
-
-
+<%-- <%@page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+ --%>
 <script>
 var editor1;
 KindEditor.ready(function(K) {
