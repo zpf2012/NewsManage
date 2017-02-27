@@ -13,7 +13,8 @@
 
 	<%-- var options = '<a title="newPreview" href="<%=newPreview %>" target="_blank" onclick="newPreview()">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
 	 --%>
-	var options = '<a href="<%=request.getContextPath() %>/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="<%=request.getContextPath() %>/edit?id=##new_id##" target="_blank">编辑</a>';
+	 <%-- <%=request.getContextPath() %>/edit?id=##new_id## --%>
+	var options = '<a href="<%=request.getContextPath() %>/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="changeTabToEdit(this)" title="##new_id##">编辑</a>';
 	var template = '<tbody class="table-data"><tr><td><input id="##new_id##" name="news_entry" onclick="changeState(this)" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##newsType##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
 
 	
@@ -40,8 +41,50 @@
 	var checkAllTrigger = false;
 	var newsArr = [];
 	
-	function newPreview(){
-		alert(1);
+	
+	function changeTabToEdit(obj){
+		var new_id = $(obj).attr("title");
+		$.ajax({
+			type : "GET",
+			dataType : "jsonp",
+			jsonp:"callback",
+			jsonpCallback:'newsDetail',
+			//http://10.211.110.207:9080/api/public/news/eipNews/queryNewsDetail?newsId=10212
+			//url : 'http://asc.hand-china.com/eip/api/public/news/eipNews/queryNewsDetail',
+			url : urlPrefix+'/eipNews/queryNewsDetail',
+			data:{"newsId":new_id},
+			success : function(data) {
+				if(data.thisNews.newsType != "HEIP_NEWSTYPE_ANNOUNCEMENT"){
+					//$("#newsId").val(data.thisNews.newsId);
+					$("#pubNews").prop("class", "tab-pane fade in active");
+					$('a[href="#pubNews"]').parent().prop('class', 'active');
+					alert(data.thisNews.summary+"///"+data.thisNews.content);
+					
+					$("#moreTitle").val(data.thisNews.title);
+					$("#moreAuthor").val(data.thisNews.signatureName);
+					$("#picturePath").val(data.thisNews.titlePicUrl);
+					
+					$("#moreSummary").val(data.thisNews.summary);
+					$("#moreContent").val(data.thisNews.content);
+					
+					/* $('a[href="#newsMng"]').parent().prop('class', '');
+					$("#newsMng").prop("class", "tab-pane fade"); */
+				}else{
+					//$("#annoId").val(data.thisNews.newsId);
+					$("#pubAnno").prop("class", "tab-pane fade in active");
+					$('a[href="#pubAnno"]').parent().prop('class', 'active');
+					
+					$("#annTitle").val(data.thisNews.title);
+					$("#annContent").val(data.thisNews.content);
+					
+				}
+				$('a[href="#newsMng"]').parent().prop('class', '');
+				$("#newsMng").prop("class", "tab-pane fade");
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("请求内容失败");
+			}
+		});
 	}
 	
  	function checkAll(){
