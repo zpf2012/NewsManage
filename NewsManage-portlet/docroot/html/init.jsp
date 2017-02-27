@@ -16,7 +16,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="theme" %>
 
-<<theme:defineObjects/>
+<theme:defineObjects/>
 <portlet:defineObjects />
 <link href="<%=request.getContextPath()%>/css/NewsMng.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/css/pubNews.css" rel="stylesheet">
