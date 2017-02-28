@@ -44,7 +44,7 @@ KindEditor.ready(function(K) {
 					</div>
 					<div class="zz_rele_d_2_c">文章作者</div>
 					<div class="zz_rele_d_2_d">
-						<input type="text" id="moreAuthor" name="newSignatureName" placeholder="*请输入文章作者（10字以内）选填" style="width: 686px; height: 30px;"/>
+						<input type="text" id="moreAuthor" name="newSignatureName" placeholder="*请输入文章作者（10字以内）必填" style="width: 686px; height: 30px;"/>
 					</div>
 					<div class="zz_rele_d_2_e">
 						<div class="zz_rele_d_2_e_1">
@@ -56,6 +56,7 @@ KindEditor.ready(function(K) {
 						<div class="zz_rele_d_2_e_2">
 							<span id="uploadImg"> 
 								<input  type="file" size="1" id="picturePath" name="morePicture" style="position:absolute; z-index:100; font-size:0px; opacity:0; filter:alpha(opacity=0); height:170px; width:300px;">
+								<input type="hidden" id="picturePathUrl" name="picturePathUrl" value=""/>
 								<img style="width:300px; height:170px;" id="picturePath0" name="picturePath0" src="<%=request.getContextPath() %>/images/clickNews.png">
 							</span>	
 						</div>
@@ -141,10 +142,20 @@ var checkNews = function(){
 	var flag=true;
 	var moreTitle=document.getElementById('moreTitle').value;
 	var picturePath=document.getElementById('picturePath').value;
+	var moreAuthor=document.getElementById('moreAuthor').value;
+	var picturePath0=$('#picturePath0').prop('src');
 	var moreContent=document.getElementById('moreContent').value;
 	var moreSummary=document.getElementById('moreSummary').value;
+	
+	//用于更新时将url上传
+	$("#picturePathUrl").val($('#picturePath0').prop('src'));
+	
 	if($.trim(moreTitle)==''){
 		alert('未输入标题');
+		flag=false;
+	}
+	else if(moreAuthor==''){
+		alert('未输入文章作者');
 		flag=false;
 	}
 	else if(moreTitle.length>30){

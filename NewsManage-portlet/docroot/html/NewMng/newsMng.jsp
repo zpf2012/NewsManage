@@ -16,7 +16,6 @@
 	 <%-- <%=request.getContextPath() %>/edit?id=##new_id## --%>
 	var options = '<a href="<%=request.getContextPath() %>/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="changeTabToEdit(this)" title="##new_id##">编辑</a>';
 	var template = '<tbody class="table-data"><tr><td><input id="##new_id##" name="news_entry" onclick="changeState(this)" type="checkbox"/></td><td>##title##</td><td>##summary##</td><td>##newsType##</td><td>##releaseDate##</td><td>##signatureName##</td><td>##status##</td><td>';
-
 	
 	//初始化参数
 	var page = 1;
@@ -65,27 +64,8 @@
  					$("#picturePath0").attr("src", data.thisNews.titlePicUrl);
 					$("#moreSummary").html(data.thisNews.summary);
 					
+					$("#moreContent").html(data.thisNews.content);
 					editor2.html(data.thisNews.content);
-					/* $('#moreContent').prev().children().each(function(){
-						alert($(document).find('.ke-edit-iframe').html());
-						if($(this).prop("class")== "ke-edit"){
-							$('.ke-content').contents().filter(function(){
-								alert(1);
-							});
-							//$(this).find('.ke-content').html(data.thisNews.content);
-						}
-					}); */
- 					//alert($("#moreContent").html());
- 					
-					
- 					/* var cont = data.thisNews.content;
- 					
- 					var editor = K.create('textarea[name="newContent"]', {
- 				       allowFileManager : true
- 					});
- 					alert(editor.innerHTML);
-					var kindeditor = window.editor;
-					editor.innerHTML= cont; */
 					
 					$('a[href="#newsMng"]').parent().prop('class', '');
 					$("#newsMng").prop("class", "tab-pane fade");
@@ -95,6 +75,8 @@
 					
 					$("#annoId").val(data.thisNews.newsId);
 					$("#annTitle").val(data.thisNews.title);
+					$("#annContent").val(data.thisNews.content);
+					
 					editor1.html(data.thisNews.content);
 					
 				}

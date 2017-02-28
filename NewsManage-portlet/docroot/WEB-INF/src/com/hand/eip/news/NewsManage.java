@@ -46,7 +46,7 @@ public class NewsManage extends MVCPortlet {
 
 	
 	@ProcessAction(name = "pubNews")
-	public void pubNews(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, PortalException,SystemException {
+	public void pubNews(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, SystemException, PortalException {
 		long userId = PortalUtil.getUser(actionRequest).getUserId();
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(actionRequest);
 		String newsId = ParamUtil.getString(actionRequest, "newsId","");
@@ -54,24 +54,30 @@ public class NewsManage extends MVCPortlet {
 		String newSignatureName = ParamUtil.getString(actionRequest,"newSignatureName", "无作者");
 		String newSummary = ParamUtil.getString(actionRequest, "newSummary","无摘要");
 		String newContent = ParamUtil.getString(actionRequest, "newContent","无内容");
+		String picturePathUrl = ParamUtil.getString(actionRequest, "picturePathUrl","");
 		newContent = URLEncoder.encode(newContent, "UTF-8");
 		
 		String url = "";
 		UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);
-		File file = uploadPortletRequest.getFile("morePicture");
-		//System.out.println("file" + file);// 服务器上临时文件夹
-		String fileName = uploadPortletRequest.getFullFileName("morePicture");
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-		String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000)+fileName;
-		
-		//System.out.println("fileName" + fileName);// img-test123.jpg
-		String mimeType = uploadPortletRequest.getContentType("morePicture");
-		//System.out.println("mimeType" + mimeType);// /image/jpeg
-		long repositoryId = Long.parseLong(config.get("repositoryId"));
-		long folderId = Long.parseLong(config.get("folderId"));
-		InputStream is = new FileInputStream(file);
-		url = uploadFile(repositoryId, folderId, is,file.length(), newFileName, mimeType,serviceContext);
+		File file = null;
+		try {
+			file = uploadPortletRequest.getFile("morePicture");
+			//System.out.println("file" + file);// 服务器上临时文件夹
+			String fileName = uploadPortletRequest.getFullFileName("morePicture");
+			
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+			String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000)+fileName;
+			
+			//System.out.println("fileName" + fileName);// img-test123.jpg
+			String mimeType = uploadPortletRequest.getContentType("morePicture");
+			//System.out.println("mimeType" + mimeType);// /image/jpeg
+			long repositoryId = Long.parseLong(config.get("repositoryId"));
+			long folderId = Long.parseLong(config.get("folderId"));
+			InputStream is = new FileInputStream(file);
+			url = uploadFile(repositoryId, folderId, is,file.length(), newFileName, mimeType,serviceContext);
+		} catch (Exception e) {
+			url = picturePathUrl;
+		}
 
 		if(newsId.equals("") || newsId == null ){
 			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertNews","url=" 
@@ -85,7 +91,7 @@ public class NewsManage extends MVCPortlet {
 			}
 		}else{
 			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/updateNew","newsId="
-					+ newsId +"url=" 
+					+ newsId +"&url=" 
 					+ url + "&newTitle=" 
 					+ newTitle + "&newSignatureName=" 
 					+ newSignatureName + "&newSummary=" 
@@ -126,7 +132,7 @@ public class NewsManage extends MVCPortlet {
 			}
 		}else{
 			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/updateAnno","annoId="
-					+ annoId + "title=" 
+					+ annoId + "&title=" 
 					+ title + "&content=" 
 					+ content + "&userId=" 
 					+ userId+ "&userName=" + userName);
