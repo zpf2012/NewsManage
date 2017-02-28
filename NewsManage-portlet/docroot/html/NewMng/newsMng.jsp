@@ -63,15 +63,21 @@
 					$("#moreTitle").val(data.thisNews.title);
 					$("#moreAuthor").val(data.thisNews.signatureName);
  					$("#picturePath0").attr("src", data.thisNews.titlePicUrl);
-					$("#moreSummary").html(data.thisNews.content);
+					$("#moreSummary").html(data.thisNews.summary);
+					$("#moreContent").html(data.thisNews.content);
+ 					alert($("#moreContent").html());
 					
- 					var cont = data.thisNews.content;
-					alert(cont);
+ 					/* var cont = data.thisNews.content;
+ 					
+ 					var editor = K.create('textarea[name="newContent"]', {
+ 				       allowFileManager : true
+ 					});
+ 					alert(editor.innerHTML);
+					var kindeditor = window.editor;
+					editor.innerHTML= cont; */
 					
-					$("#moreContent").html(cont);
-					
-					/* $('a[href="#newsMng"]').parent().prop('class', '');
-					$("#newsMng").prop("class", "tab-pane fade"); */
+					$('a[href="#newsMng"]').parent().prop('class', '');
+					$("#newsMng").prop("class", "tab-pane fade");
 				}else{
 					//$("#annoId").val(data.thisNews.newsId);
 					$("#pubAnno").prop("class", "tab-pane fade in active");
