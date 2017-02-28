@@ -151,12 +151,12 @@ var checkNews = function(){
 		alert('标题字数过长');
 		flag=false;
 	}
-	else if(picturePath==''){
+	else if(picturePath=='' && $("#newsId").val()==''){
 		alert('您没有选择图片上传!');
 		flag=false;
 	}
-	else if(moreSummary.length>80){
-		alert('摘要字数过长');
+	else if(moreSummary.length>80 || moreSummary.length < 0){
+		alert('摘要字数不合法');
 		flag=false;
 	}
 	else if($.trim(moreContent)==''){

@@ -11,7 +11,7 @@
 	var total = 0;
 	var head = '<thead class="table-columns"><tr><th><input id="selectAll" onclick="checkAll()" type="checkbox"/></th><th class="table-first-header" width="400px">标题</th><th width="200px">摘要</th><th>类型</th><th>发布日期</th><th>发布人</th><th>当前状态</th><th>操作</th></tr></thdea>';
 
-	<%-- var options = '<a title="newPreview" href="<%=newPreview %>" target="_blank" onclick="newPreview()">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##">编辑</a>';
+	<%-- var options = '<a title="newPreview" href="<%=newPreview %>" target="_blank" onclick="newPreview()">预览</a>&nbsp;&nbsp;<a href="'+urlPrefix+'/edit?id=##new_id##&content=##content##">编辑</a>';
 	 --%>
 	 <%-- <%=request.getContextPath() %>/edit?id=##new_id## --%>
 	var options = '<a href="<%=request.getContextPath() %>/view?id=##new_id##" target="_blank">预览</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="changeTabToEdit(this)" title="##new_id##">编辑</a>';
@@ -34,7 +34,7 @@
 
 		$('input[name="news_entry"]').prop("checked", false);
 		
-		$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
+		//$("#test").html('<a href="'+urlPrefix+'/eipNews/query?page=1&pageSize=15&timeInterval=3&newsType=ALL">查看数据</a>');
 
 		
 	});
@@ -55,7 +55,7 @@
 			data:{"newsId":new_id},
 			success : function(data) {
 				if(data.thisNews.newsType != "HEIP_NEWSTYPE_ANNOUNCEMENT"){
-					//$("#newsId").val(data.thisNews.newsId);
+					$("#newsId").val(data.thisNews.newsId);
 					$("#pubNews").prop("class", "tab-pane fade in active");
 					$('a[href="#pubNews"]').parent().prop('class', 'active');
 					/* alert(data.thisNews.summary+"///"+data.thisNews.content); */
@@ -64,8 +64,19 @@
 					$("#moreAuthor").val(data.thisNews.signatureName);
  					$("#picturePath0").attr("src", data.thisNews.titlePicUrl);
 					$("#moreSummary").html(data.thisNews.summary);
-					$("#moreContent").html(data.thisNews.content);
- 					alert($("#moreContent").html());
+					
+					editor2.html(data.thisNews.content);
+					/* $('#moreContent').prev().children().each(function(){
+						alert($(document).find('.ke-edit-iframe').html());
+						if($(this).prop("class")== "ke-edit"){
+							$('.ke-content').contents().filter(function(){
+								alert(1);
+							});
+							//$(this).find('.ke-content').html(data.thisNews.content);
+						}
+					}); */
+ 					//alert($("#moreContent").html());
+ 					
 					
  					/* var cont = data.thisNews.content;
  					
@@ -79,12 +90,12 @@
 					$('a[href="#newsMng"]').parent().prop('class', '');
 					$("#newsMng").prop("class", "tab-pane fade");
 				}else{
-					//$("#annoId").val(data.thisNews.newsId);
 					$("#pubAnno").prop("class", "tab-pane fade in active");
 					$('a[href="#pubAnno"]').parent().prop('class', 'active');
 					
+					$("#annoId").val(data.thisNews.newsId);
 					$("#annTitle").val(data.thisNews.title);
-					$("#annContent").val(data.thisNews.content);
+					editor1.html(data.thisNews.content);
 					
 				}
 				$('a[href="#newsMng"]').parent().prop('class', '');
@@ -117,7 +128,7 @@
 				console.log("newsArr: "+newsArr.toString()+":"+typeof(newsArr));
 				batchDeleteAjax();
 				newsArr = [];
-				getData();
+				//getData();
 			}
 		}else{
 			alert("至少选择一个需要删除的条目。");
@@ -137,6 +148,7 @@
 			//jsonpCallback:"query",
 			success : function(data) {
 				alert(data.result);
+				getData();
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
 				alert("删除失败："+errorThrown);
@@ -157,7 +169,7 @@
 	function clickFun(obj){
 		var id = $(obj).attr("id");
 		if(id.substr(0, 8) == "pageSize"){
-			pageSize = id.substr(9);
+			pageSize = parseInt(id.substr(9));
 		}else if(id.substr(0, 12) == "timeInterval"){
 			if(id.substr(13)=="month"){
 				timeInterval = 1;
@@ -175,7 +187,7 @@
 				newsType = "HEIP_NEWSTYPE_ANNOUNCEMENT";
 			}
 		}else if( id.substr(0, 11) == "currentPage"){
-			page = id.substr(12);
+			page = parseInt(id.substr(12));
 		}else if(id.substr(5)== "first"){
 			page = 1;
 		}else if(id.substr(5)== "previous"){
@@ -382,9 +394,6 @@
 
 <div id="container"></div>
 <div id="test"></div>
-<div id="customerPage"
-	class="yui3-widget modal yui3-widget-positioned yui3-widget-stacked yui3-widget-modal modal-focused yui3-dd-draggable yui3-resize"
-	style="left: 280px; top: 4.31667px; z-index: 1201; height: 100%; width: 100%; display: none;"
-	tabindex="0">
-</div>
+<div id="testPage"><a href="<%=request.getContextPath() %>/html/test.jsp">跳转到测试页面</a></div>
+
 

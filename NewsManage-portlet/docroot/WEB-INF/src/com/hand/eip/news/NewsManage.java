@@ -49,6 +49,7 @@ public class NewsManage extends MVCPortlet {
 	public void pubNews(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, PortalException,SystemException {
 		long userId = PortalUtil.getUser(actionRequest).getUserId();
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(actionRequest);
+		String newsId = ParamUtil.getString(actionRequest, "newsId","");
 		String newTitle = ParamUtil.getString(actionRequest, "newTitle", "无标题");
 		String newSignatureName = ParamUtil.getString(actionRequest,"newSignatureName", "无作者");
 		String newSummary = ParamUtil.getString(actionRequest, "newSummary","无摘要");
@@ -72,16 +73,29 @@ public class NewsManage extends MVCPortlet {
 		InputStream is = new FileInputStream(file);
 		url = uploadFile(repositoryId, folderId, is,file.length(), newFileName, mimeType,serviceContext);
 
-		String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertNews","url=" 
-				+ url + "&newTitle=" 
-				+ newTitle + "&newSignatureName=" 
-				+ newSignatureName + "&newSummary=" 
-				+ newSummary + "&newContent=" 
-				+ newContent + "&userId=" + userId);
-
-		if (s == null) {
-			actionRequest.setAttribute("messageNews", "发布新闻成功！");
+		if(newsId.equals("") || newsId == null ){
+			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertNews","url=" 
+					+ url + "&newTitle=" 
+					+ newTitle + "&newSignatureName=" 
+					+ newSignatureName + "&newSummary=" 
+					+ newSummary + "&newContent=" 
+					+ newContent + "&userId=" + userId);
+			if (s == null) {
+				actionRequest.setAttribute("messageNews", "发布新闻成功！");
+			}
+		}else{
+			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/updateNew","newsId="
+					+ newsId +"url=" 
+					+ url + "&newTitle=" 
+					+ newTitle + "&newSignatureName=" 
+					+ newSignatureName + "&newSummary=" 
+					+ newSummary + "&newContent=" 
+					+ newContent + "&userId=" + userId);
+			if (s == null) {
+				actionRequest.setAttribute("messageNews", "更新新闻成功！");
+			}
 		}
+
 	}
 	
 	/**
@@ -95,18 +109,31 @@ public class NewsManage extends MVCPortlet {
 	@ProcessAction(name = "pubAnno")
 	public void toEditAnnounce(ActionRequest actionRequest,ActionResponse actionResponse) throws IOException, PortalException,SystemException {
 		long userId = PortalUtil.getUser(actionRequest).getUserId();
+		String annoId = ParamUtil.getString(actionRequest, "annoId","");
 		String userName = PortalUtil.getUser(actionRequest).getLastName();
 		String title = ParamUtil.getString(actionRequest, "annTitle", "无标题");
 		String content = ParamUtil.getString(actionRequest, "annContent","无内容");
 		content = URLEncoder.encode(content, "UTF-8");
 
-		String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertAnnouncement","title=" 
-				+ title + "&content=" 
-				+ content + "&userId=" 
-				+ userId+ "&userName=" + userName);
-
-		if (s == null) {
-			actionRequest.setAttribute("messageAnn", "发布通告成功！");
+		if(annoId.equals("") || annoId == null){
+			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertAnnouncement","title=" 
+					+ title + "&content=" 
+					+ content + "&userId=" 
+					+ userId+ "&userName=" + userName);
+			
+			if (s == null) {
+				actionRequest.setAttribute("messageAnn", "发布通告成功！");
+			}
+		}else{
+			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/updateAnno","annoId="
+					+ annoId + "title=" 
+					+ title + "&content=" 
+					+ content + "&userId=" 
+					+ userId+ "&userName=" + userName);
+			
+			if (s == null) {
+				actionRequest.setAttribute("messageAnn", "更新通告成功！");
+			}
 		}
 	}
 	
