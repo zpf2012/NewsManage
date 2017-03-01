@@ -55,7 +55,11 @@ public class NewsManage extends MVCPortlet {
 		String newSummary = ParamUtil.getString(actionRequest, "newSummary","无摘要");
 		String newContent = ParamUtil.getString(actionRequest, "newContent","无内容");
 		String picturePathUrl = ParamUtil.getString(actionRequest, "picturePathUrl","");
-		newContent = URLEncoder.encode(newContent, "UTF-8");
+		
+		newTitle = URLEncoder.encode(specialCharTransfer(newTitle), "UTF-8");
+		newSignatureName = URLEncoder.encode(specialCharTransfer(newSignatureName), "UTF-8");
+		newSummary = URLEncoder.encode(specialCharTransfer(newSummary), "UTF-8");
+		newContent = URLEncoder.encode(specialCharTransfer(newContent), "UTF-8");
 		
 		String url = "";
 		UploadPortletRequest uploadPortletRequest = PortalUtil.getUploadPortletRequest(actionRequest);
@@ -105,6 +109,25 @@ public class NewsManage extends MVCPortlet {
 	}
 	
 	/**
+	 * 特殊字符转义（用于URL转码）
+	 * @param str
+	 * @return
+	 */
+	public static String specialCharTransfer(String str){
+		
+		str = str.replace("+", "%2B");
+		str = str.replace(" ", "%20");
+		str = str.replace("/", "%2F");
+		str = str.replace("?", "%3F");
+		str = str.replace("%", "%25");
+		str = str.replace("#", "%23");
+		str = str.replace("&", "%26");
+		str = str.replace("=", "%3D");
+		
+		return str;
+	}
+	
+	/**
 	 * 
 	 * @param actionRequest
 	 * @param actionResponse
@@ -119,7 +142,9 @@ public class NewsManage extends MVCPortlet {
 		String userName = PortalUtil.getUser(actionRequest).getLastName();
 		String title = ParamUtil.getString(actionRequest, "annTitle", "无标题");
 		String content = ParamUtil.getString(actionRequest, "annContent","无内容");
-		content = URLEncoder.encode(content, "UTF-8");
+		
+		title = URLEncoder.encode(specialCharTransfer(title), "UTF-8");
+		content = URLEncoder.encode(specialCharTransfer(content), "UTF-8");
 
 		if(annoId.equals("") || annoId == null){
 			String s = NewsManage.post(config.get("serverUrl")+"/api/public/news/eipNews/insertAnnouncement","title=" 
@@ -206,12 +231,14 @@ public class NewsManage extends MVCPortlet {
 	 * @param urlStr
 	 * @param param
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static String post(String urlStr, String param) {
+	public static String post(String urlStr, String param) throws UnsupportedEncodingException {
 		HttpURLConnection conn = null;
 		BufferedReader in = null;
 		PrintWriter out = null;
 		StringBuilder result = new StringBuilder();
+		System.out.println(param);
 		try {
 			URL url = new URL(urlStr);
 			conn = (HttpURLConnection) url.openConnection();
